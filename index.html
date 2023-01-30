@@ -18,17 +18,14 @@
 
 				<p>This is an in-progress web application for World of Warcraft randomized grouping. This page will take a list of characters and their roles, randomize them, and build groups.</p>
 
-				<p>Currently in progress:</p>
+				<p>Remaining tasks:</p>
 
 				<ul>
-					<li><del>A way to make a list of users and the roles they can play.</del></li>
-					<li>Save list to localstorage.</li>
-					<li>Clear local storage (for debugging or data errors.)</li>
-					<li>Export list from local storage.</li>
 					<li>Sort list into roles.</li>
 					<li>Enable and disable users. They may need to step away for a bit or are not online that night. Only enabled users will be sorted.</li>
 					<li>Build group (no randomization.) Need to test for duplicate people at this point, such as a person who can tank and heal doesn't get put twince in one group or in seperate groups.</li>
 					<li>Build group (randomized.)</li>
+					<li>Export list from local storage.</li>
 					<li>UI clean-up and refinements to make it more user friendly.</li>
 					<li>Web accessiblility features.</li>
 					<li>Priority for specific people so that they are ensured a group. This assumes there is enough room since we might have just 1 tank, 1 healer, and 4 DPS with priority, one of the DPS won't get a space.</li>
@@ -43,12 +40,64 @@
 	<script>
 		// Save list of users to local storage.
 		function saveList() {
-			console.log("Saving list!")
+			console.log("Saving the list!")
 
 			var rowCount = document.getElementById("user-list-body").rows.length;
 			console.log("Counted Rows: " + rowCount);
 
-			console.log("Row content ID: " + document.getElementById("user-list-body").rows[0].cells[1].getElementsByTagName("input")[0].id);
+			// The string to store in local storage.
+			var user_string = "";
+
+			for (let step = 0; step < rowCount; step++) {
+				var id_to_process = document.getElementById("user-list-body").rows[step].cells[1].getElementsByTagName("input")[0].id;
+				//console.log("ID to process: " + id_to_process);
+
+				// User Name
+				user_string = user_string + document.getElementById(id_to_process).value;
+
+				// If marked active
+				if (document.getElementById(id_to_process + "-active").checked) {
+					user_string = user_string + "," + 1;
+				} else {
+					user_string = user_string + "," + 0;
+				}
+
+				// If Tank
+				if (document.getElementById(id_to_process + "-tank").checked) {
+					user_string = user_string + "," + 1;
+				} else {
+					user_string = user_string + "," + 0;
+				}
+
+				// If Healer
+				if (document.getElementById(id_to_process + "-healer").checked) {
+					user_string = user_string + "," + 1;
+				} else {
+					user_string = user_string + "," + 0;
+				}
+
+				// If DPS
+				if (document.getElementById(id_to_process + "-dps").checked) {
+					user_string = user_string + "," + 1;
+				} else {
+					user_string = user_string + "," + 0;
+				}
+
+				user_string = user_string + ";";
+
+				//console.log("Row content ID: " + document.getElementById("user-list-body").rows[step].cells[1].getElementsByTagName("input")[0].id);
+			}
+
+			// Delete last ';' in string.
+			user_string = user_string.slice(0, -1);
+
+			// String to save.
+			console.log(user_string);
+
+			localStorage.setItem('groupData', user_string);
+
+
+			//console.log("Row content ID: " + document.getElementById("user-list-body").rows[0].cells[1].getElementsByTagName("input")[0].id);
 
 			// var children = document.querySelectorAll("#user-list-body tr td input");
 			// for (var i = 0; i < children.length; i++) {
@@ -58,7 +107,7 @@
 
 		// Export list for importing.
 		function exportList() {
-			document.getElementById("result_box").textContent = "Export Data! - Not implemented yet.";
+			document.getElementById("result_box").textContent = "Export Data! - Not implemented yet";
 		}
 
 		// Destroy the local list.
@@ -71,12 +120,76 @@
 
 		// Load the groups from local storage and populate the group list.
 		function loadGroups() {
-			console.log("Reading groups and populating the page! - Not implemented yet.")
+			console.log("Reading groups and populating the page! - In progress")
+
+			const groupData = localStorage.getItem('groupData');
+			console.log("String to import: " + groupData);
+
+			const groupArray = groupData.split(";");
+			groupArray.sort();
+			// console.log("The array 1: " + groupArray[0]);
+			// console.log("The array 2: " + groupArray[1]);
+			// console.log("The array 3: " + groupArray[2]);
+			// console.log("The array 4: " + groupArray[3]);
+			// console.log("The array 5: " + groupArray[4]);
+
+			var table = document.getElementById('user-list-body');
+
+			for (let step = 0; step < groupArray.length; step++) {
+				const individualUserData = groupArray[step].split(",");
+				// console.log("1: " + individualUserData[0]);
+				// console.log("2: " + individualUserData[1]);
+				// console.log("3: " + individualUserData[2]);
+				// console.log("4: " + individualUserData[3]);
+				// console.log("5: " + individualUserData[4]);
+
+				var rowCount = table.rows.length;
+				var row = table.insertRow(rowCount);
+
+				var cell1 = row.insertCell(0);
+				if (individualUserData[1] === "1") {
+					cell1.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-active" checked></input>';
+				} else {
+					cell1.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-active"></input>';
+				}
+
+				var cell2 = row.insertCell(1);
+				cell2.innerHTML = '<input class="form-control" id="user' + step + '"></input>';
+				document.getElementById("user" + step).value = individualUserData[0];
+
+				var cell3 = row.insertCell(2);
+				if (individualUserData[2] === "1") {
+					cell3.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-tank" checked></input>';
+				} else {
+					cell3.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-tank"></input>';
+				}
+
+				var cell4 = row.insertCell(3);
+				if (individualUserData[3] === "1") {
+					cell4.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-healer" checked></input>';
+				} else {
+					cell4.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-healer"></input>';
+				}
+
+
+				var cell5 = row.insertCell(4);
+				if (individualUserData[4] === "1") {
+					cell5.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-dps" checked></input>';
+				} else {
+					cell5.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-dps"></input>';
+				}
+
+				var cell6 = row.insertCell(5);
+				cell6.innerHTML = '<button type="button" class="btn btn-danger" onclick="deleteUser(this);">Delete</button>';
+
+				userCount++;
+			}
+
 		}
 
 		// Build the teams.
 		function buildGroups() {
-			console.log("Building groups! - Not implemented yet.")
+			console.log("Building groups! - Not implemented yet")
 		}
 	</script>
 
@@ -109,10 +222,10 @@
 			var row = table.insertRow(rowCount);
 
 			var cell1 = row.insertCell(0);
-			cell1.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + userCount + '-enabled" checked></input>';
+			cell1.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + userCount + '-active" checked></input>';
 
 			var cell2 = row.insertCell(1);
-			cell2.innerHTML = '<input class="form-control" id="user' + userCount + '-name"></input>';
+			cell2.innerHTML = '<input class="form-control" id="user' + userCount + '"></input>';
 
 			var cell3 = row.insertCell(2);
 			cell3.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + userCount + '-tank"></input>';
@@ -154,7 +267,7 @@
 					</thead>
 					<tbody class="table-group-divider" id="user-list-body">
 						<!-- <tr id="userX">
-							<td scope="row"><input class="form-check-input" type="checkbox" value="" id="userX-enabled" checked></input></td>
+							<td scope="row"><input class="form-check-input" type="checkbox" value="" id="userX-active" checked></input></td>
 							<td><input class="form-control" id="userX-name"></input></td>
 							<td><input class="form-check-input" type="checkbox" value="" id="userX-tank"></input></td>
 							<td><input class="form-check-input" type="checkbox" value="" id="userX-healer"></input></td>
