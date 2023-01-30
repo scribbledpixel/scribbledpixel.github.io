@@ -21,7 +21,7 @@
 				<p>Currently in progress:</p>
 
 				<ul>
-					<li>A way to make a list of users and the roles they can play.</li>
+					<li><del>A way to make a list of users and the roles they can play.</del></li>
 					<li>Save list to localstorage.</li>
 					<li>Clear local storage (for debugging or data errors.)</li>
 					<li>Export list from local storage.</li>
@@ -30,6 +30,7 @@
 					<li>Build group (no randomization.) Need to test for duplicate people at this point, such as a person who can tank and heal doesn't get put twince in one group or in seperate groups.</li>
 					<li>Build group (randomized.)</li>
 					<li>UI clean-up and refinements to make it more user friendly.</li>
+					<li>Web accessiblility features.</li>
 					<li>Priority for specific people so that they are ensured a group. This assumes there is enough room since we might have just 1 tank, 1 healer, and 4 DPS with priority, one of the DPS won't get a space.</li>
 				</ul>
 
@@ -40,16 +41,52 @@
 	<p>&nbsp;</p>
 
 	<script>
+		// Save list of users to local storage.
+		function saveList() {
+			console.log("Saving list!")
 
+			var rowCount = document.getElementById("user-list-body").rows.length;
+			console.log("Counted Rows: " + rowCount);
+
+			console.log("Row content ID: " + document.getElementById("user-list-body").rows[0].cells[1].getElementsByTagName("input")[0].id);
+
+			// var children = document.querySelectorAll("#user-list-body tr td input");
+			// for (var i = 0; i < children.length; i++) {
+			// 	console.log(children[i].id);
+			// }
+		}
+
+		// Export list for importing.
+		function exportList() {
+			document.getElementById("result_box").textContent = "Export Data! - Not implemented yet.";
+		}
+
+		// Destroy the local list.
+		function destroyList() {
+			console.log("Destroying list!");
+
+			// Remove all localStorage items for the site.
+			localStorage.clear();
+		}
+
+		// Load the groups from local storage and populate the group list.
+		function loadGroups() {
+			console.log("Reading groups and populating the page! - Not implemented yet.")
+		}
+
+		// Build the teams.
+		function buildGroups() {
+			console.log("Building groups! - Not implemented yet.")
+		}
 	</script>
 
 	<div class="container">
 		<div class="row">
 			<div class="col text-center">
 				<button type="button" class="btn btn-success">Build Groups</button>
-				<button type="button" class="btn btn-primary">Save List</button>
-				<button type="button" class="btn btn-secondary">Export List</button>
-				<button type="button" class="btn btn-danger">Destroy List</button>
+				<button type="button" class="btn btn-primary" onclick="saveList()">Save List</button>
+				<button type="button" class="btn btn-secondary" onclick="exportList();">Export List</button>
+				<button type="button" class="btn btn-danger" onclick="destroyList();">Destroy List</button>
 			</div>
 		</div>
 	</div>
@@ -58,53 +95,76 @@
 	<p>&nbsp;</p>
 
 	<script>
+		// Count of users.
+		var userCount = 0;
+
+
+		// Add an empty row to the user list.
+		function addNewUser() {
+			console.log("Adding user " + userCount);
+
+			var table = document.getElementById('user-list-body');
+
+			var rowCount = table.rows.length;
+			var row = table.insertRow(rowCount);
+
+			var cell1 = row.insertCell(0);
+			cell1.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + userCount + '-enabled" checked></input>';
+
+			var cell2 = row.insertCell(1);
+			cell2.innerHTML = '<input class="form-control" id="user' + userCount + '-name"></input>';
+
+			var cell3 = row.insertCell(2);
+			cell3.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + userCount + '-tank"></input>';
+
+			var cell4 = row.insertCell(3);
+			cell4.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + userCount + '-healer"></input>';
+
+			var cell5 = row.insertCell(4);
+			cell5.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + userCount + '-dps"></input>';
+
+			var cell6 = row.insertCell(5);
+			cell6.innerHTML = '<button type="button" class="btn btn-danger" onclick="deleteUser(this);">Delete</button>';
+
+			userCount++;
+		}
+
+		// Delete the selected user.
+		function deleteUser(row) {
+			var i = row.parentNode.parentNode.rowIndex;
+			document.getElementById('user-list').deleteRow(i);
+		}
 
 	</script>
 
-	<div class="container border border-dark">
-		<div class="row">
-			<div class="col">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-auto">
 
-				<table class="table w-auto text-center">
+				<table class="table w-auto text-center align-middle" id="user-list">
 					<thead>
 						<tr>
-							<th scope="col">Enabled</th>
+							<th scope="col">Active</th>
 							<th scope="col">Name</th>
 							<th scope="col">Tank</th>
 							<th scope="col">Healer</th>
 							<th scope="col">DPS</th>
-							<th scope="col">Delete</th>
+							<th scope="col"><!--Delete--></th>
 						</tr>
 					</thead>
-					<tbody>
-						<tr>
-							<td scope="row">X</td>
-							<td>X</td>
-							<td>X</td>
-							<td>X</td>
-							<td>X</td>
-							<td>X</td>
-						</tr>
-						<tr>
-							<td scope="row">X</td>
-							<td>X</td>
-							<td>X</td>
-							<td>X</td>
-							<td>X</td>
-							<td>X</td>
-						</tr>
-						<tr>
-							<td scope="row">X</td>
-							<td>X</td>
-							<td>X</td>
-							<td>X</td>
-							<td>X</td>
-							<td>X</td>
-						</tr>
+					<tbody class="table-group-divider" id="user-list-body">
+						<!-- <tr id="userX">
+							<td scope="row"><input class="form-check-input" type="checkbox" value="" id="userX-enabled" checked></input></td>
+							<td><input class="form-control" id="userX-name"></input></td>
+							<td><input class="form-check-input" type="checkbox" value="" id="userX-tank"></input></td>
+							<td><input class="form-check-input" type="checkbox" value="" id="userX-healer"></input></td>
+							<td><input class="form-check-input" type="checkbox" value="" id="userX-dps"></input></td>
+							<td><button type="button" class="btn btn-danger">Delete</button></td>
+						</tr> -->
 					</tbody>
 				</table>
 
-				<button type="button" class="btn btn-light">+</button>
+				<button type="button" class="btn btn-light" onclick="addNewUser();">+</button>
 
 			</div>
 		</div>
@@ -115,10 +175,19 @@
 	<div class="container border border-dark">
 		<div class="row">
 			<div class="col">
-				Results
+				<p><strong>Results</strong></p>
+
+				<div id="result_box">
+
+				</div>
 			</div>
 		</div>
 	</div>
+
+	<script>
+		// On load, populate the entire list of users and roles.
+		window.onload = loadGroups();
+	</script>
 
 	<p>&nbsp;</p>
 

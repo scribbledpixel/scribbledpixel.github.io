@@ -1,3 +1,10 @@
 Local Storage:
 https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
 
+
+Dynamic list in Javascript:
+https://memorynotfound.com/dynamically-addremove-items-list-javascript/
+
+
+
+https://stackoverflow.com/questions/6473111/add-delete-table-rows-dynamically-using-javascript
