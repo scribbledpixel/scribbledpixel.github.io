@@ -118,71 +118,81 @@
 
 		// Load the groups from local storage and populate the group list.
 		function loadGroups() {
+
+
 			console.log("Reading groups and populating the page! - In progress")
 
-			const groupData = localStorage.getItem('groupData');
-			console.log("String to import: " + groupData);
 
-			const groupArray = groupData.split(";");
-			groupArray.sort();
-			// console.log("The array 1: " + groupArray[0]);
-			// console.log("The array 2: " + groupArray[1]);
-			// console.log("The array 3: " + groupArray[2]);
-			// console.log("The array 4: " + groupArray[3]);
-			// console.log("The array 5: " + groupArray[4]);
+			try {
+				const groupData = localStorage.getItem('groupData');
+				console.log("String to import: " + groupData);
 
-			var table = document.getElementById('user-list-body');
+				const groupArray = groupData.split(";");
+				groupArray.sort();
+				// console.log("The array 1: " + groupArray[0]);
+				// console.log("The array 2: " + groupArray[1]);
+				// console.log("The array 3: " + groupArray[2]);
+				// console.log("The array 4: " + groupArray[3]);
+				// console.log("The array 5: " + groupArray[4]);
 
-			for (let step = 0; step < groupArray.length; step++) {
-				const individualUserData = groupArray[step].split(",");
-				// console.log("1: " + individualUserData[0]);
-				// console.log("2: " + individualUserData[1]);
-				// console.log("3: " + individualUserData[2]);
-				// console.log("4: " + individualUserData[3]);
-				// console.log("5: " + individualUserData[4]);
+				var table = document.getElementById('user-list-body');
 
-				var rowCount = table.rows.length;
-				var row = table.insertRow(rowCount);
+				for (let step = 0; step < groupArray.length; step++) {
+					const individualUserData = groupArray[step].split(",");
+					// console.log("1: " + individualUserData[0]);
+					// console.log("2: " + individualUserData[1]);
+					// console.log("3: " + individualUserData[2]);
+					// console.log("4: " + individualUserData[3]);
+					// console.log("5: " + individualUserData[4]);
 
-				var cell1 = row.insertCell(0);
-				if (individualUserData[1] === "1") {
-					cell1.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-active" checked></input>';
-				} else {
-					cell1.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-active"></input>';
+					var rowCount = table.rows.length;
+					var row = table.insertRow(rowCount);
+
+					var cell1 = row.insertCell(0);
+					if (individualUserData[1] === "1") {
+						cell1.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-active" checked></input>';
+					} else {
+						cell1.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-active"></input>';
+					}
+
+					var cell2 = row.insertCell(1);
+					cell2.innerHTML = '<input class="form-control" id="user' + step + '"></input>';
+					document.getElementById("user" + step).value = individualUserData[0];
+
+					var cell3 = row.insertCell(2);
+					if (individualUserData[2] === "1") {
+						cell3.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-tank" checked></input>';
+					} else {
+						cell3.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-tank"></input>';
+					}
+
+					var cell4 = row.insertCell(3);
+					if (individualUserData[3] === "1") {
+						cell4.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-healer" checked></input>';
+					} else {
+						cell4.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-healer"></input>';
+					}
+
+
+					var cell5 = row.insertCell(4);
+					if (individualUserData[4] === "1") {
+						cell5.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-dps" checked></input>';
+					} else {
+						cell5.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-dps"></input>';
+					}
+
+					var cell6 = row.insertCell(5);
+					cell6.innerHTML = '<button type="button" class="btn btn-danger" onclick="deleteUser(this);">Delete</button>';
+
+					userCount++;
 				}
 
-				var cell2 = row.insertCell(1);
-				cell2.innerHTML = '<input class="form-control" id="user' + step + '"></input>';
-				document.getElementById("user" + step).value = individualUserData[0];
+			} catch (error) {
+				// No data to import.
+				console.log("No data to import.")
 
-				var cell3 = row.insertCell(2);
-				if (individualUserData[2] === "1") {
-					cell3.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-tank" checked></input>';
-				} else {
-					cell3.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-tank"></input>';
-				}
-
-				var cell4 = row.insertCell(3);
-				if (individualUserData[3] === "1") {
-					cell4.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-healer" checked></input>';
-				} else {
-					cell4.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-healer"></input>';
-				}
-
-
-				var cell5 = row.insertCell(4);
-				if (individualUserData[4] === "1") {
-					cell5.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-dps" checked></input>';
-				} else {
-					cell5.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-dps"></input>';
-				}
-
-				var cell6 = row.insertCell(5);
-				cell6.innerHTML = '<button type="button" class="btn btn-danger" onclick="deleteUser(this);">Delete</button>';
-
-				userCount++;
+				document.getElementById("result_box").innerHTML = "<p>No import data available.</p>"
 			}
-
 		}
 
 		// Build the teams.
