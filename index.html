@@ -21,7 +21,6 @@
 				<p>Remaining tasks:</p>
 
 				<ul>
-					<li>Sort list into roles. Also, enable and disable users. They may need to step away for a bit or are not online that night. Only enabled users will be sorted.</li>
 					<li>Build group (no randomization.) Need to test for duplicate people at this point, such as a person who can tank and heal doesn't get put twince in one group or in seperate groups.</li>
 					<li>Build group (randomized.)</li>
 					<li>Export list from local storage so it can be transferred between users.</li>
@@ -103,10 +102,12 @@
 			// }
 		}
 
+
 		// Export list for importing.
 		function exportList() {
 			document.getElementById("result_box").textContent = "Export Data! - Not implemented yet";
 		}
+
 
 		// Destroy the local list.
 		function destroyList() {
@@ -116,12 +117,11 @@
 			localStorage.clear();
 		}
 
+
 		// Load the groups from local storage and populate the group list.
 		function loadGroups() {
 
-
-			console.log("Reading groups and populating the page! - In progress")
-
+			console.log("Reading groups and populating the page!")
 
 			try {
 				const groupData = localStorage.getItem('groupData');
@@ -187,6 +187,8 @@
 					userCount++;
 				}
 
+				document.getElementById("result_box").innerHTML = "<p>List loaded and ready.</p>"
+
 			} catch (error) {
 				// No data to import.
 				console.log("No data to import.")
@@ -195,18 +197,82 @@
 			}
 		}
 
+		// Arrays for the groups.
+		const arrayOfTanks = [];
+		const arrayOfHealers = [];
+		const arrayOfDPS = [];
+
 		// Build the teams.
 		function buildGroups() {
-			console.log("Building groups! - Not implemented yet")
+			console.log("Building groups! - In progress")
+
+			// Reset all arrays in case the page hasn't been refreshed.
+			arrayOfTanks.length = 0;
+			arrayOfHealers.length = 0;
+			arrayOfDPS.length = 0;
+
+
+			var rowCount = document.getElementById("user-list-body").rows.length;
+			console.log("Counted Rows: " + rowCount);
+
+			// The string to store in local storage.
+			var user_string = "";
+
+			for (let step = 0; step < rowCount; step++) {
+				var id_to_process = document.getElementById("user-list-body").rows[step].cells[1].getElementsByTagName("input")[0].id;
+
+				// If marked active
+				if (document.getElementById(id_to_process + "-active").checked) {
+					// User is active so we can sort them.
+
+					// User Name
+					user_to_add = document.getElementById(id_to_process).value;
+					//console.log("Attempting to add: " + user_to_add);
+
+					// If Tank
+					if (document.getElementById(id_to_process + "-tank").checked) {
+						arrayOfTanks.push(user_to_add);
+					}
+
+					// If Healer
+					if (document.getElementById(id_to_process + "-healer").checked) {
+						arrayOfHealers.push(user_to_add);
+					}
+
+					// If DPS
+					if (document.getElementById(id_to_process + "-dps").checked) {
+						arrayOfDPS.push(user_to_add);
+					}
+
+				} else {
+					// User is inactive, so do nothing.
+				}
+			}
+
+			console.log("Roles are sorted. Need to build groups.");
+			console.log("Tank array: " + arrayOfTanks);
+			console.log("Healer array: " + arrayOfHealers);
+			console.log("DPS array: " + arrayOfDPS);
+
+			shuffleGroups();
+		}
+
+		// Randomly build the groups.
+		function shuffleGroups() {
+			console.log("Time to shuffle groups!");
+
+
+			
 		}
 	</script>
 
 	<div class="container">
 		<div class="row">
 			<div class="col text-center">
-				<button type="button" class="btn btn-success">Build Groups</button>
-				<button type="button" class="btn btn-primary" onclick="saveList()">Save List</button>
+				<button type="button" class="btn btn-success" onclick="buildGroups();">Build Groups</button>
+				<button type="button" class="btn btn-primary" onclick="saveList();">Save List</button>
 				<button type="button" class="btn btn-secondary" onclick="exportList();">Export List</button>
+				<button type="button" class="btn btn-secondary">Import List</button>
 				<button type="button" class="btn btn-danger" onclick="destroyList();">Destroy List</button>
 			</div>
 		</div>
