@@ -302,6 +302,27 @@ function removeFromLists(characterToRemove) {
 	if (dpsToRemove >= 0) {
 		arrayOfDPS.splice(dpsToRemove, 1);
 	}
+
+
+	tankHealerToRemove = arrayTankHeal.indexOf(characterToRemove);
+	if (tankHealerToRemove >= 0) {
+		arrayTankHeal.splice(tankHealerToRemove, 1);
+	}
+
+	tankDPSToRemove = arrayTankDPS.indexOf(characterToRemove);
+	if (tankDPSToRemove >= 0) {
+		arrayTankDPS.splice(tankDPSToRemove, 1);
+	}
+
+	healDPSToRemove = arrayHealDPS.indexOf(characterToRemove);
+	if (healDPSToRemove >= 0) {
+		arrayHealDPS.splice(healDPSToRemove, 1);
+	}
+
+	tankHealDPSToRemove = arrayTankHealDPS.indexOf(characterToRemove);
+	if (tankHealDPSToRemove >= 0) {
+		arrayTankHealDPS.splice(tankHealDPSToRemove, 1);
+	}
 }
 
 
@@ -320,16 +341,17 @@ function shuffleGroups() {
 	document.getElementById("result_div").style.display = "block";
 	document.getElementById("result_box").innerHTML = "<p>Building groups...</p>"
 
-	while (arrayOfTanks.length > 0 && arrayOfHealers.length > 0 && arrayOfDPS.length >= 5) {
+
+	while (arrayOfTanks.length > 0 && arrayOfHealers.length > 0 && arrayOfDPS.length >= 3) {
 
 		selectedTank = arrayOfTanks[getRandomInt(arrayOfTanks.length)];
 		removeFromLists(selectedTank);
-		console.log("TANK: " + selectedTank);
+		//console.log("TANK: " + selectedTank);
 		//console.log("Tank array: " + arrayOfTanks);
 
 		selectedHealer = arrayOfHealers[getRandomInt(arrayOfHealers.length)];
 		removeFromLists(selectedHealer);
-		console.log("HEALER: " + selectedHealer);
+		//console.log("HEALER: " + selectedHealer);
 		//console.log("Healer array: " + arrayOfHealers);
 
 		// THIS IS WRONG!
@@ -339,29 +361,32 @@ function shuffleGroups() {
 		selectedDPSOne = arrayOfDPS[getRandomInt(arrayOfDPS.length)];
 		// while arrayOfTanks & arrayOfHealers >= 1 & selectedDPSOne is in either array, keep looking for alternate options, unless arrayOfDPS is = 3.
 		removeFromLists(selectedDPSOne);
-		console.log("DPS1: " + selectedDPSOne);
+		//console.log("DPS1: " + selectedDPSOne);
 
 		selectedDPSTwo = arrayOfDPS[getRandomInt(arrayOfDPS.length)];
 		// Same
 		removeFromLists(selectedDPSTwo);
-		console.log("DPS2: " + selectedDPSTwo);
+		//console.log("DPS2: " + selectedDPSTwo);
 
 		selectedDPSThree = arrayOfDPS[getRandomInt(arrayOfDPS.length)];
 		// Same
 		removeFromLists(selectedDPSThree);
-		console.log("DPS3: " + selectedDPSThree);
+		//console.log("DPS3: " + selectedDPSThree);
 
 		document.getElementById("result_div").style.display = "block";
 		document.getElementById("result_box").innerHTML = document.getElementById("result_box").innerHTML + "<p><strong>Group " + groupCounter + "</strong><br>Tank: " + selectedTank + "<br>Healer: " + selectedHealer + "<br>DPS: " + selectedDPSOne + ", " + selectedDPSTwo + ", " + selectedDPSThree + "</p>";
 
 		groupCounter++;
-
-		console.log("**Remaining Tanks: " + arrayOfTanks);
-		console.log("**Remaining Healers: " + arrayOfHealers);
-		console.log("**Remaining DPS: " + arrayOfDPS);
-
 	} // End While
 
+	console.log("** Remaining Tanks: " + arrayOfTanks);
+	console.log("** Remaining Healers: " + arrayOfHealers);
+	console.log("** Remaining DPS: " + arrayOfDPS);
+	console.log("---------------");
+	console.log("** Tank and Healer array: " + arrayTankHeal);
+	console.log("** Tank and DPS list: " + arrayTankDPS);
+	console.log("** Healer and DPS list: " + arrayHealDPS);
+	console.log("** Tank, Healer, and DPS list: " + arrayTankHealDPS);
 
 	/**
 	 * If arrayOfTanks.length > 1
@@ -374,7 +399,6 @@ function shuffleGroups() {
 	 * 		If present in arrayOfTanks or arrayOfHealers AND the length of the Tank and healer arrays are both greater than one, skip and reselect a DPS, else add to group and remove from all lists.
 	 * 		
 	*/
-
 }
 
 
