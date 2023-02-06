@@ -66,6 +66,25 @@ function saveList() {
 }
 
 
+// Display the impot box.
+function displayImport() {
+	document.getElementById("import_div").style.display = "block";
+}
+
+
+// Import the data and save to local storage.
+function importData() {
+	console.log("Importing Data!");
+
+	console.log("Data to import: " + document.getElementById("import_box").value);
+
+	localStorage.setItem("groupData", document.getElementById("import_box").value);
+
+	document.getElementById("import_button").style.display = "none";
+	document.getElementById("import_confirm").style.display = "block";
+}
+
+
 // Export list for importing.
 function exportList() {
 	console.log("Export Data!");
@@ -156,13 +175,15 @@ function loadGroups() {
 			userCount++;
 		}
 
+		document.getElementById("result_div").style.display = "block";
 		document.getElementById("result_box").innerHTML = "<p>List loaded and ready.</p>"
 
 	} catch (error) {
 		// No data to import.
 		console.log("No data to import.")
 
-		document.getElementById("result_box").innerHTML = "<p>No import data available.</p>"
+		document.getElementById("result_div").style.display = "block";
+		document.getElementById("result_box").innerHTML = "<p>No import data available.</p>";
 	}
 }
 
@@ -264,7 +285,7 @@ function shuffleGroups() {
 
 	var groupCounter = 1;
 
-
+	document.getElementById("result_div").style.display = "block";
 	document.getElementById("result_box").innerHTML = "<p>Building groups...</p>"
 
 	while (arrayOfTanks.length > 0 && arrayOfHealers.length > 0 && arrayOfDPS.length >= 5) {
@@ -298,6 +319,7 @@ function shuffleGroups() {
 		removeFromLists(selectedDPSThree);
 		console.log("DPS3: " + selectedDPSThree);
 
+		document.getElementById("result_div").style.display = "block";
 		document.getElementById("result_box").innerHTML = document.getElementById("result_box").innerHTML + "<p><strong>Group " + groupCounter + "</strong><br>Tank: " + selectedTank + "<br>Healer: " + selectedHealer + "<br>DPS: " + selectedDPSOne + ", " + selectedDPSTwo + ", " + selectedDPSThree + "</p>";
 
 		groupCounter++;
