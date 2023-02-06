@@ -194,6 +194,11 @@ const arrayOfTanks = [];
 const arrayOfHealers = [];
 const arrayOfDPS = [];
 
+const arrayTankHeal = [];
+const arrayTankDPS = [];
+const arrayHealDPS = [];
+const arrayTankHealDPS = [];
+
 // Build the teams.
 function buildGroups() {
 	console.log("Building groups! - In progress")
@@ -203,12 +208,13 @@ function buildGroups() {
 	arrayOfHealers.length = 0;
 	arrayOfDPS.length = 0;
 
+	arrayTankHeal.length = 0;
+	arrayTankDPS.length = 0;
+	arrayHealDPS.length = 0;
+	arrayTankHealDPS.length = 0;
 
 	var rowCount = document.getElementById("user-list-body").rows.length;
 	console.log("Counted Rows: " + rowCount);
-
-	// The string to store in local storage.
-	var user_string = "";
 
 	for (let step = 0; step < rowCount; step++) {
 		var id_to_process = document.getElementById("user-list-body").rows[step].cells[1].getElementsByTagName("input")[0].id;
@@ -236,6 +242,26 @@ function buildGroups() {
 				arrayOfDPS.push(user_to_add);
 			}
 
+			// If Tank AND Healer
+			if (document.getElementById(id_to_process + "-tank").checked && document.getElementById(id_to_process + "-healer").checked) {
+				arrayTankHeal.push(user_to_add);
+			}
+
+			// If Tank AND DPS
+			if (document.getElementById(id_to_process + "-tank").checked && document.getElementById(id_to_process + "-dps").checked) {
+				arrayTankDPS.push(user_to_add);
+			}
+
+			// If Healer AND DPS
+			if (document.getElementById(id_to_process + "-healer").checked && document.getElementById(id_to_process + "-dps").checked) {
+				arrayHealDPS.push(user_to_add);
+			}
+
+			// If Tank, Healer, AND DPS
+			if (document.getElementById(id_to_process + "-tank").checked && document.getElementById(id_to_process + "-healer").checked && document.getElementById(id_to_process + "-dps").checked) {
+				arrayTankHealDPS.push(user_to_add);
+			}
+
 		} else {
 			// User is inactive, so do nothing.
 		}
@@ -245,6 +271,11 @@ function buildGroups() {
 	console.log("Tank array: " + arrayOfTanks);
 	console.log("Healer array: " + arrayOfHealers);
 	console.log("DPS array: " + arrayOfDPS);
+	console.log("---------------");
+	console.log("Tank and Healer array: " + arrayTankHeal);
+	console.log("Tank and DPS list: " + arrayTankDPS);
+	console.log("Healer and DPS list: " + arrayHealDPS);
+	console.log("Tank, Healer, and DPS list: " + arrayTankHealDPS);
 
 	shuffleGroups();
 }
