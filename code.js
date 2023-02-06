@@ -56,6 +56,7 @@ function saveList() {
 
 	localStorage.setItem('groupData', user_string);
 
+	document.getElementById("result_box").innerHTML = "<p>Data saved.</p>";
 
 	//console.log("Row content ID: " + document.getElementById("user-list-body").rows[0].cells[1].getElementsByTagName("input")[0].id);
 
