@@ -24,6 +24,8 @@
 
 				<ul>
 					<li>Fix group building. Need to make it so that (for example) a potential Tank isn't selected as DPS if other DPS are available.</li>
+					<li>Export list for chat review. Like: "Kard - Tank, DPS"</li>
+					<li>Check for duplicate player names and prevent that.</li>
 					<li>UI clean-up and refinements to make it more user friendly and web accessiblility features. This includes instructions on using it.</li>
 					<li>Priority for specific people so that they are ensured a group. This assumes there is enough room since we might have just 1 tank, 1 healer, and 4 DPS with priority, and 1 DPS without. One of the priority DPS won't get a space nor will the 1 DPS without priority.</li>
 				</ul>
@@ -37,11 +39,12 @@
 	<div class="container">
 		<div class="row">
 			<div class="col text-center">
-				<button type="button" class="btn btn-success" onclick="buildGroups();">Build Groups</button>
-				<button type="button" class="btn btn-primary" onclick="saveList();">Save List</button>
-				<button type="button" class="btn btn-secondary" onclick="exportList();">Export List</button>
-				<button type="button" class="btn btn-secondary" onclick="displayImport();">Import List</button>
-				<button type="button" class="btn btn-danger" onclick="destroyList();">Destroy List</button>
+				<button type="button" class="btn btn-success" onclick="preFightList();" title="This will outout a list of active players and their roles. Use this to help makes sure the data is correct before the groups are split-up.">Prefight Check</button>
+				<button type="button" class="btn btn-success" onclick="buildGroups();" title="Build the groups of players who are flagged as active.">Build Groups</button>
+				<button type="button" class="btn btn-primary" onclick="saveList();" title="Save the current list below to local storage.">Save List</button>
+				<button type="button" class="btn btn-secondary" onclick="exportList();" title="Exports the list of players and their roles to a format that cen be sent to another user.">Export List</button>
+				<button type="button" class="btn btn-secondary" onclick="displayImport();" title="Imports the list of players and their roles that you received from someone else.">Import List</button>
+				<button type="button" class="btn btn-danger" onclick="destroyList();" title="Destroys the locally saved data in case there is a problem.">Destroy List</button>
 			</div>
 		</div>
 	</div>

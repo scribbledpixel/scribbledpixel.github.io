@@ -1,3 +1,14 @@
+// Output a list of active names and roles for people to check the settings.
+function preFightList() {
+	console.log("Building Prefight list!")
+
+	var rowCount = document.getElementById("user-list-body").rows.length;
+	console.log("Counted Rows: " + rowCount);
+
+
+}
+
+
 // Save list of users to local storage.
 function saveList() {
 	console.log("Saving the list!")
@@ -117,7 +128,10 @@ function loadGroups() {
 		console.log("String to import: " + groupData);
 
 		const groupArray = groupData.split(";");
-		groupArray.sort();
+		//groupArray.sort();
+		groupArray.sort(function (a, b) {
+			return a.localeCompare(b, 'en', { 'sensitivity': 'base' });
+		});
 		// console.log("The array 1: " + groupArray[0]);
 		// console.log("The array 2: " + groupArray[1]);
 		// console.log("The array 3: " + groupArray[2]);
@@ -303,7 +317,7 @@ function removeFromLists(characterToRemove) {
 		arrayOfDPS.splice(dpsToRemove, 1);
 	}
 
-
+	// Multi-roles to remove.
 	tankHealerToRemove = arrayTankHeal.indexOf(characterToRemove);
 	if (tankHealerToRemove >= 0) {
 		arrayTankHeal.splice(tankHealerToRemove, 1);
@@ -358,6 +372,43 @@ function shuffleGroups() {
 		// Will need to check the DPS and healer lists again to ensure I'm not breaking a future group, BUT this is fine for the moment to see if i'm building groups.
 		//console.log("**Remaining DPS: " + arrayOfDPS);
 
+
+		//do {
+		//	okToAdd = false;
+
+		//	if (arrayOfDPS.length >= 1) {
+		//		selectedDPSOne = arrayOfDPS[getRandomInt(arrayOfDPS.length)];
+
+		//		tankHealCheck = arrayTankHeal.indexOf(selectedDPSOne);
+		//		tankDPSCheck = arrayTankDPS.indexOf(selectedDPSOne);
+		//		healDPSCheck = arrayHealDPS.indexOf(selectedDPSOne);
+		//		tankHealDPSCheck = arrayTankHealDPS.indexOf(selectedDPSOne);
+
+
+				//tankHealerToRemove = arrayTankHeal.indexOf(characterToRemove);
+				//if (tankHealerToRemove >= 0) {
+				//	arrayTankHeal.splice(tankHealerToRemove, 1);
+				//}
+
+
+		//		if (arrayOfDPS.length <= 3) {
+					// If there are just 3 names in the DPS list, just use it.
+		//			okToAdd = true;
+		//		} else if (arrayOfDPS.length > 3 && tankDPSCheck === -1 ) {
+					// If there are more than 3 names
+		//		}
+
+
+		//	} else {
+		//		selectedDPSOne = "[Pug This Slot]";
+		//		okToAdd = true;
+		//	}
+
+
+		//} while (okToAdd === true);
+		//removeFromLists(selectedDPSOne);
+
+
 		selectedDPSOne = arrayOfDPS[getRandomInt(arrayOfDPS.length)];
 		// while arrayOfTanks & arrayOfHealers >= 1 & selectedDPSOne is in either array, keep looking for alternate options, unless arrayOfDPS is = 3.
 		removeFromLists(selectedDPSOne);
@@ -372,6 +423,9 @@ function shuffleGroups() {
 		// Same
 		removeFromLists(selectedDPSThree);
 		//console.log("DPS3: " + selectedDPSThree);
+
+
+
 
 		document.getElementById("result_div").style.display = "block";
 		document.getElementById("result_box").innerHTML = document.getElementById("result_box").innerHTML + "<p><strong>Group " + groupCounter + "</strong><br>Tank: " + selectedTank + "<br>Healer: " + selectedHealer + "<br>DPS: " + selectedDPSOne + ", " + selectedDPSTwo + ", " + selectedDPSThree + "</p>";
