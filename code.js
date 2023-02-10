@@ -2,10 +2,44 @@
 function preFightList() {
 	console.log("Building Prefight list!")
 
+	document.getElementById("result_box").innerHTML = "<p>List of players who are currently active in the list and their roles:</p>";
+
 	var rowCount = document.getElementById("user-list-body").rows.length;
-	console.log("Counted Rows: " + rowCount);
+	//console.log("Counted Rows: " + rowCount);
 
+	var outputResults = "<p>";
 
+	//document.getElementById("result_box").innerHTML = "<p>";
+
+	for (let step = 0; step < rowCount; step++) {
+		var id_to_process = document.getElementById("user-list-body").rows[step].cells[1].getElementsByTagName("input")[0].id;
+
+		// We are going to export only the people marked active.
+		if (document.getElementById(id_to_process + "-active").checked) {
+			
+			// User Name
+			outputResults = outputResults + document.getElementById(id_to_process).value;
+
+			// If Tank
+			if (document.getElementById(id_to_process + "-tank").checked) {
+				outputResults = outputResults + " - Tank";
+			}
+
+			// If Healer
+			if (document.getElementById(id_to_process + "-healer").checked) {
+				outputResults = outputResults + " - Healer";
+			}
+
+			// If DPS
+			if (document.getElementById(id_to_process + "-dps").checked) {
+				outputResults = outputResults + " - DPS";
+			}
+
+			outputResults = outputResults + "<br>"
+		}
+	}
+
+	document.getElementById("result_box").innerHTML = document.getElementById("result_box").innerHTML + outputResults + "</p>";
 }
 
 
@@ -385,17 +419,17 @@ function shuffleGroups() {
 		//		tankHealDPSCheck = arrayTankHealDPS.indexOf(selectedDPSOne);
 
 
-				//tankHealerToRemove = arrayTankHeal.indexOf(characterToRemove);
-				//if (tankHealerToRemove >= 0) {
-				//	arrayTankHeal.splice(tankHealerToRemove, 1);
-				//}
+		//tankHealerToRemove = arrayTankHeal.indexOf(characterToRemove);
+		//if (tankHealerToRemove >= 0) {
+		//	arrayTankHeal.splice(tankHealerToRemove, 1);
+		//}
 
 
 		//		if (arrayOfDPS.length <= 3) {
-					// If there are just 3 names in the DPS list, just use it.
+		// If there are just 3 names in the DPS list, just use it.
 		//			okToAdd = true;
 		//		} else if (arrayOfDPS.length > 3 && tankDPSCheck === -1 ) {
-					// If there are more than 3 names
+		// If there are more than 3 names
 		//		}
 
 
