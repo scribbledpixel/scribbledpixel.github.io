@@ -1,6 +1,6 @@
 // Output a list of active names and roles for people to check the settings.
 function preFightList() {
-	console.log("Building Prefight list!")
+	//console.log("Building Prefight list!")
 
 	document.getElementById("result_box").innerHTML = "<p>List of players who are currently active in the list and their roles:</p>";
 
@@ -43,10 +43,10 @@ function preFightList() {
 
 // Save list of users to local storage.
 function saveList() {
-	console.log("Saving the list!")
+	//console.log("Saving the list!")
 
 	var rowCount = document.getElementById("user-list-body").rows.length;
-	console.log("Counted Rows: " + rowCount);
+	//console.log("Counted Rows: " + rowCount);
 
 	// The string to store in local storage.
 	var user_string = "";
@@ -95,7 +95,7 @@ function saveList() {
 	user_string = user_string.slice(0, -1);
 
 	// String to save.
-	console.log(user_string);
+	//console.log(user_string);
 
 	localStorage.setItem('groupData', user_string);
 
@@ -118,9 +118,9 @@ function displayImport() {
 
 // Import the data and save to local storage.
 function importData() {
-	console.log("Importing Data!");
+	//console.log("Importing Data!");
 
-	console.log("Data to import: " + document.getElementById("import_box").value);
+	//console.log("Data to import: " + document.getElementById("import_box").value);
 
 	localStorage.setItem("groupData", document.getElementById("import_box").value);
 
@@ -131,7 +131,7 @@ function importData() {
 
 // Export list for importing.
 function exportList() {
-	console.log("Export Data!");
+	//console.log("Export Data!");
 
 	document.getElementById("export_div").style.display = "block";
 
@@ -143,7 +143,7 @@ function exportList() {
 
 // Destroy the local list.
 function destroyList() {
-	console.log("Destroying list!");
+	//console.log("Destroying list!");
 
 	// Remove all localStorage items for the site.
 	localStorage.clear();
@@ -153,11 +153,11 @@ function destroyList() {
 // Load the groups from local storage and populate the group list.
 function loadGroups() {
 
-	console.log("Reading groups and populating the page!")
+	//console.log("Reading groups and populating the page!")
 
 	try {
 		const groupData = localStorage.getItem('groupData');
-		console.log("String to import: " + groupData);
+		//console.log("String to import: " + groupData);
 
 		const groupArray = groupData.split(";");
 		//groupArray.sort();
@@ -230,7 +230,7 @@ function loadGroups() {
 
 	} catch (error) {
 		// No data to import.
-		console.log("No data to import.")
+		//console.log("No data to import.")
 
 		document.getElementById("result_div").style.display = "block";
 		document.getElementById("result_box").innerHTML = "<p>No import data available.</p>";
@@ -256,7 +256,7 @@ const arrayTankHealDPS = [];
 
 // Build the teams.
 function buildGroups() {
-	console.log("Building groups! - In progress")
+	//console.log("Building groups! - In progress")
 
 	// Reset all arrays in case the page hasn't been refreshed.
 	arrayOfTanks.length = 0;
@@ -273,7 +273,7 @@ function buildGroups() {
 	arrayTankHealDPS.length = 0;
 
 	var rowCount = document.getElementById("user-list-body").rows.length;
-	console.log("Counted Rows: " + rowCount);
+	//console.log("Counted Rows: " + rowCount);
 
 	for (let step = 0; step < rowCount; step++) {
 		var id_to_process = document.getElementById("user-list-body").rows[step].cells[2].getElementsByTagName("input")[0].id;
@@ -425,7 +425,7 @@ function removeFromLists(characterToRemove) {
 
 // Randomly build the groups.
 function shuffleGroups() {
-	console.log("Time to shuffle groups!");
+	//console.log("Time to shuffle groups!");
 
 	// arrayOfDPS.indexOf("Kard")  -- Returns the index ID if found, -1 if not present.
 	// array.splice(9, 1) --- at the index of 9, remove 1 item and return the updated array.
@@ -516,6 +516,7 @@ function shuffleGroups() {
 		groupCounter++;
 	} // End While
 
+	console.log("---------------");
 	console.log("** Remaining Tanks: " + arrayOfTanks);
 	console.log("** Remaining Healers: " + arrayOfHealers);
 	console.log("** Remaining DPS: " + arrayOfDPS);
@@ -549,7 +550,7 @@ var userCount = 0;
 
 // Add an empty row to the user list.
 function addNewUser() {
-	console.log("Adding user " + userCount);
+	//console.log("Adding user " + userCount);
 
 	var table = document.getElementById('user-list-body');
 
@@ -588,7 +589,7 @@ function deleteUser(row) {
 
 // Remove all Priority checkmarks.
 function clearPriority() {
-	console.log("Removing all priorities.");
+	//console.log("Removing all priorities.");
 
 	var rowCount = document.getElementById("user-list-body").rows.length;
 	//console.log("Counted Rows: " + rowCount);
