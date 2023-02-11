@@ -14,7 +14,7 @@ function preFightList() {
 
 		// We are going to export only the people marked active.
 		if (document.getElementById(id_to_process + "-active").checked) {
-			
+
 			// User Name
 			outputResults = outputResults + document.getElementById(id_to_process).value;
 
@@ -238,11 +238,17 @@ function loadGroups() {
 }
 
 
-// Arrays for the groups.
+// Arrays for the group pools.
 const arrayOfTanks = [];
 const arrayOfHealers = [];
 const arrayOfDPS = [];
 
+// Arrays of priority players.
+const arrayPriorityTanks = [];
+const arrayPriorityHealers = [];
+const arrayPriorityDPS = [];
+
+// Arrays for class combinations.
 const arrayTankHeal = [];
 const arrayTankDPS = [];
 const arrayHealDPS = [];
@@ -256,6 +262,10 @@ function buildGroups() {
 	arrayOfTanks.length = 0;
 	arrayOfHealers.length = 0;
 	arrayOfDPS.length = 0;
+
+	arrayPriorityTanks.length = 0;
+	arrayPriorityHealers.length = 0;
+	arrayPriorityDPS.length = 0;
 
 	arrayTankHeal.length = 0;
 	arrayTankDPS.length = 0;
@@ -281,14 +291,29 @@ function buildGroups() {
 				arrayOfTanks.push(user_to_add);
 			}
 
+			// If Tank & Priority
+			if (document.getElementById(id_to_process + "-tank").checked && document.getElementById(id_to_process + "-priority").checked) {
+				arrayPriorityTanks.push(user_to_add);
+			}
+
 			// If Healer
 			if (document.getElementById(id_to_process + "-healer").checked) {
 				arrayOfHealers.push(user_to_add);
 			}
 
+			// If Healer & Priority
+			if (document.getElementById(id_to_process + "-healer").checked && document.getElementById(id_to_process + "-priority").checked) {
+				arrayPriorityHealers.push(user_to_add);
+			}
+
 			// If DPS
 			if (document.getElementById(id_to_process + "-dps").checked) {
 				arrayOfDPS.push(user_to_add);
+			}
+
+			// If DPS & Priority
+			if (document.getElementById(id_to_process + "-dps").checked && document.getElementById(id_to_process + "-priority").checked) {
+				arrayPriorityDPS.push(user_to_add);
 			}
 
 			// If Tank AND Healer
@@ -321,6 +346,10 @@ function buildGroups() {
 	console.log("Healer array: " + arrayOfHealers);
 	console.log("DPS array: " + arrayOfDPS);
 	console.log("---------------");
+	console.log("Priority Tank array: " + arrayPriorityTanks);
+	console.log("Priority Healer array: " + arrayPriorityHealers);
+	console.log("Priority DPS array: " + arrayPriorityDPS);
+	console.log("---------------");
 	console.log("Tank and Healer array: " + arrayTankHeal);
 	console.log("Tank and DPS list: " + arrayTankDPS);
 	console.log("Healer and DPS list: " + arrayHealDPS);
@@ -337,6 +366,7 @@ function getRandomInt(max) {
 
 // Remove the selected name from all arrays if possible.
 function removeFromLists(characterToRemove) {
+	// Regular roles to remove.
 	tankToRemove = arrayOfTanks.indexOf(characterToRemove);
 	if (tankToRemove >= 0) {
 		arrayOfTanks.splice(tankToRemove, 1);
@@ -351,6 +381,24 @@ function removeFromLists(characterToRemove) {
 	if (dpsToRemove >= 0) {
 		arrayOfDPS.splice(dpsToRemove, 1);
 	}
+
+
+	// Priority roles to remove.
+	priorityTankToRemove = arrayPriorityTanks.indexOf(characterToRemove);
+	if (priorityTankToRemove >= 0) {
+		arrayPriorityTanks.splice(priorityTankToRemove, 1);
+	}
+
+	priorityHealerToRemove = arrayPriorityHealers.indexOf(characterToRemove);
+	if (priorityHealerToRemove >= 0) {
+		arrayPriorityHealers.splice(priorityHealerToRemove, 1);
+	}
+
+	priorityDpsToRemove = arrayPriorityDPS.indexOf(characterToRemove);
+	if (priorityDpsToRemove >= 0) {
+		arrayPriorityDPS.splice(priorityDpsToRemove, 1);
+	}
+
 
 	// Multi-roles to remove.
 	tankHealerToRemove = arrayTankHeal.indexOf(characterToRemove);
@@ -471,6 +519,10 @@ function shuffleGroups() {
 	console.log("** Remaining Tanks: " + arrayOfTanks);
 	console.log("** Remaining Healers: " + arrayOfHealers);
 	console.log("** Remaining DPS: " + arrayOfDPS);
+	console.log("---------------");
+	console.log("** Remaining Priority Tank array: " + arrayPriorityTanks);
+	console.log("** Remaining Priority Healer array: " + arrayPriorityHealers);
+	console.log("** Remaining Priority DPS array: " + arrayPriorityDPS);
 	console.log("---------------");
 	console.log("** Tank and Healer array: " + arrayTankHeal);
 	console.log("** Tank and DPS list: " + arrayTankDPS);
