@@ -439,13 +439,17 @@ function shuffleGroups() {
 	document.getElementById("result_box").innerHTML = "<p>Building groups...</p>"
 
 
-	while (arrayOfTanks.length > 0 && arrayOfHealers.length > 0 && arrayOfDPS.length >= 3) {
+	while (arrayOfTanks.length > 0 && arrayOfHealers.length > 0) {
 		if (arrayPriorityTanks.length > 0) {
 			selectedTank = arrayPriorityTanks[getRandomInt(arrayPriorityTanks.length)];
 			removeFromLists(selectedTank);
 		} else {
 			selectedTank = arrayOfTanks[getRandomInt(arrayOfTanks.length)];
-			removeFromLists(selectedTank);
+			if (selectedTank == null) {
+				selectedTank = "[Pug this spot]";
+			} else {
+				removeFromLists(selectedTank);
+			}
 		}
 		//console.log("TANK: " + selectedTank);
 		//console.log("Tank array: " + arrayOfTanks);
@@ -455,7 +459,11 @@ function shuffleGroups() {
 			removeFromLists(selectedHealer);
 		} else {
 			selectedHealer = arrayOfHealers[getRandomInt(arrayOfHealers.length)];
-			removeFromLists(selectedHealer);
+			if (selectedHealer == null) {
+				selectedHealer = "[Pug this spot]";
+			} else {
+				removeFromLists(selectedHealer);
+			}
 		}
 		//console.log("HEALER: " + selectedHealer);
 		//console.log("Healer array: " + arrayOfHealers);
@@ -507,7 +515,11 @@ function shuffleGroups() {
 			removeFromLists(selectedDPSOne);
 		} else {
 			selectedDPSOne = arrayOfDPS[getRandomInt(arrayOfDPS.length)];
-			removeFromLists(selectedDPSOne);
+			if (selectedDPSOne == null) {
+				selectedDPSOne = "[Pug this spot]";
+			} else {
+				removeFromLists(selectedDPSOne);
+			}
 		}
 		// while arrayOfTanks & arrayOfHealers >= 1 & selectedDPSOne is in either array, keep looking for alternate options, unless arrayOfDPS is = 3.
 		//console.log("DPS1: " + selectedDPSOne);
@@ -517,7 +529,11 @@ function shuffleGroups() {
 			removeFromLists(selectedDPSTwo);
 		} else {
 			selectedDPSTwo = arrayOfDPS[getRandomInt(arrayOfDPS.length)];
-			removeFromLists(selectedDPSTwo);
+			if (selectedDPSTwo == null) {
+				selectedDPSTwo = "[Pug this spot]";
+			} else {
+				removeFromLists(selectedDPSTwo);
+			}
 		}
 		// Same
 		//console.log("DPS2: " + selectedDPSTwo);
@@ -527,7 +543,11 @@ function shuffleGroups() {
 			removeFromLists(selectedDPSThree);
 		} else {
 			selectedDPSThree = arrayOfDPS[getRandomInt(arrayOfDPS.length)];
-			removeFromLists(selectedDPSThree);
+			if (selectedDPSThree == null) {
+				selectedDPSThree = "[Pug this spot]";
+			} else {
+				removeFromLists(selectedDPSThree);
+			}
 		}
 		// Same
 		//console.log("DPS3: " + selectedDPSThree);
@@ -540,6 +560,29 @@ function shuffleGroups() {
 
 		groupCounter++;
 	} // End While
+
+
+	if (arrayOfTanks.length > 0 || arrayOfHealers.length > 0 || arrayOfDPS > 0) {
+		// Output the remaining people.
+		var remainingPlayers = "<p><strong>Players without a group:</strong><br>";
+
+		if (arrayOfTanks.length > 0) {
+			remainingPlayers = remainingPlayers + "Remaining Tanks: " + arrayOfTanks + "<br>";
+		}
+
+		if (arrayOfHealers.length > 0) {
+			remainingPlayers = remainingPlayers + "Remaining Healers: " + arrayOfHealers + "<br>";
+		}
+
+		if (arrayOfDPS.length > 0) {
+			remainingPlayers = remainingPlayers + "Remaining DPS: " + arrayOfDPS;
+		}
+
+		remainingPlayers = remainingPlayers + "</p>";
+
+		document.getElementById("result_box").innerHTML = document.getElementById("result_box").innerHTML + remainingPlayers;
+	}
+
 
 	console.log("---------------");
 	console.log("** Remaining Tanks: " + arrayOfTanks);
