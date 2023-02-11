@@ -10,7 +10,7 @@ function preFightList() {
 	var outputResults = "<p>";
 
 	for (let step = 0; step < rowCount; step++) {
-		var id_to_process = document.getElementById("user-list-body").rows[step].cells[1].getElementsByTagName("input")[0].id;
+		var id_to_process = document.getElementById("user-list-body").rows[step].cells[2].getElementsByTagName("input")[0].id;
 
 		// We are going to export only the people marked active.
 		if (document.getElementById(id_to_process + "-active").checked) {
@@ -52,7 +52,7 @@ function saveList() {
 	var user_string = "";
 
 	for (let step = 0; step < rowCount; step++) {
-		var id_to_process = document.getElementById("user-list-body").rows[step].cells[1].getElementsByTagName("input")[0].id;
+		var id_to_process = document.getElementById("user-list-body").rows[step].cells[2].getElementsByTagName("input")[0].id;
 		//console.log("ID to process: " + id_to_process);
 
 		// User Name
@@ -266,7 +266,7 @@ function buildGroups() {
 	console.log("Counted Rows: " + rowCount);
 
 	for (let step = 0; step < rowCount; step++) {
-		var id_to_process = document.getElementById("user-list-body").rows[step].cells[1].getElementsByTagName("input")[0].id;
+		var id_to_process = document.getElementById("user-list-body").rows[step].cells[2].getElementsByTagName("input")[0].id;
 
 		// If marked active
 		if (document.getElementById(id_to_process + "-active").checked) {
