@@ -446,7 +446,7 @@ function shuffleGroups() {
 		} else {
 			selectedTank = arrayOfTanks[getRandomInt(arrayOfTanks.length)];
 			if (selectedTank == null) {
-				selectedTank = "[Pug this spot]";
+				selectedTank = "[PUG this spot]";
 			} else {
 				removeFromLists(selectedTank);
 			}
@@ -460,7 +460,7 @@ function shuffleGroups() {
 		} else {
 			selectedHealer = arrayOfHealers[getRandomInt(arrayOfHealers.length)];
 			if (selectedHealer == null) {
-				selectedHealer = "[Pug this spot]";
+				selectedHealer = "[PUG this spot]";
 			} else {
 				removeFromLists(selectedHealer);
 			}
@@ -516,7 +516,7 @@ function shuffleGroups() {
 		} else {
 			selectedDPSOne = arrayOfDPS[getRandomInt(arrayOfDPS.length)];
 			if (selectedDPSOne == null) {
-				selectedDPSOne = "[Pug this spot]";
+				selectedDPSOne = "[PUG this spot]";
 			} else {
 				removeFromLists(selectedDPSOne);
 			}
@@ -530,7 +530,7 @@ function shuffleGroups() {
 		} else {
 			selectedDPSTwo = arrayOfDPS[getRandomInt(arrayOfDPS.length)];
 			if (selectedDPSTwo == null) {
-				selectedDPSTwo = "[Pug this spot]";
+				selectedDPSTwo = "[PUG this spot]";
 			} else {
 				removeFromLists(selectedDPSTwo);
 			}
@@ -544,7 +544,7 @@ function shuffleGroups() {
 		} else {
 			selectedDPSThree = arrayOfDPS[getRandomInt(arrayOfDPS.length)];
 			if (selectedDPSThree == null) {
-				selectedDPSThree = "[Pug this spot]";
+				selectedDPSThree = "[PUG this spot]";
 			} else {
 				removeFromLists(selectedDPSThree);
 			}
