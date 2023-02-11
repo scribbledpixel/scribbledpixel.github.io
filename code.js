@@ -9,8 +9,6 @@ function preFightList() {
 
 	var outputResults = "<p>";
 
-	//document.getElementById("result_box").innerHTML = "<p>";
-
 	for (let step = 0; step < rowCount; step++) {
 		var id_to_process = document.getElementById("user-list-body").rows[step].cells[1].getElementsByTagName("input")[0].id;
 
@@ -186,40 +184,43 @@ function loadGroups() {
 			var row = table.insertRow(rowCount);
 
 			var cell1 = row.insertCell(0);
-			if (individualUserData[1] === "1") {
-				cell1.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-active" checked></input>';
-			} else {
-				cell1.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-active"></input>';
-			}
+			cell1.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-priority"></input>';
 
 			var cell2 = row.insertCell(1);
-			cell2.innerHTML = '<input class="form-control" id="user' + step + '"></input>';
-			document.getElementById("user" + step).value = individualUserData[0];
+			if (individualUserData[1] === "1") {
+				cell2.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-active" checked></input>';
+			} else {
+				cell2.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-active"></input>';
+			}
 
 			var cell3 = row.insertCell(2);
-			if (individualUserData[2] === "1") {
-				cell3.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-tank" checked></input>';
-			} else {
-				cell3.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-tank"></input>';
-			}
+			cell3.innerHTML = '<input class="form-control" id="user' + step + '"></input>';
+			document.getElementById("user" + step).value = individualUserData[0];
 
 			var cell4 = row.insertCell(3);
-			if (individualUserData[3] === "1") {
-				cell4.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-healer" checked></input>';
+			if (individualUserData[2] === "1") {
+				cell4.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-tank" checked></input>';
 			} else {
-				cell4.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-healer"></input>';
+				cell4.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-tank"></input>';
 			}
-
 
 			var cell5 = row.insertCell(4);
-			if (individualUserData[4] === "1") {
-				cell5.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-dps" checked></input>';
+			if (individualUserData[3] === "1") {
+				cell5.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-healer" checked></input>';
 			} else {
-				cell5.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-dps"></input>';
+				cell5.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-healer"></input>';
 			}
 
+
 			var cell6 = row.insertCell(5);
-			cell6.innerHTML = '<button type="button" class="btn btn-danger" onclick="deleteUser(this);">Delete</button>';
+			if (individualUserData[4] === "1") {
+				cell6.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-dps" checked></input>';
+			} else {
+				cell6.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + step + '-dps"></input>';
+			}
+
+			var cell7 = row.insertCell(6);
+			cell7.innerHTML = '<button type="button" class="btn btn-danger" onclick="deleteUser(this);">Delete</button>';
 
 			userCount++;
 		}
@@ -504,22 +505,25 @@ function addNewUser() {
 	var row = table.insertRow(rowCount);
 
 	var cell1 = row.insertCell(0);
-	cell1.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + userCount + '-active" checked></input>';
+	cell1.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + userCount + '-priority"></input>';
 
 	var cell2 = row.insertCell(1);
-	cell2.innerHTML = '<input class="form-control" id="user' + userCount + '"></input>';
+	cell2.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + userCount + '-active" checked></input>';
 
 	var cell3 = row.insertCell(2);
-	cell3.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + userCount + '-tank"></input>';
+	cell3.innerHTML = '<input class="form-control" id="user' + userCount + '"></input>';
 
 	var cell4 = row.insertCell(3);
-	cell4.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + userCount + '-healer"></input>';
+	cell4.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + userCount + '-tank"></input>';
 
 	var cell5 = row.insertCell(4);
-	cell5.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + userCount + '-dps"></input>';
+	cell5.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + userCount + '-healer"></input>';
 
 	var cell6 = row.insertCell(5);
-	cell6.innerHTML = '<button type="button" class="btn btn-danger" onclick="deleteUser(this);">Delete</button>';
+	cell6.innerHTML = '<input class="form-check-input" type="checkbox" value="" id="user' + userCount + '-dps"></input>';
+
+	var cell7 = row.insertCell(6);
+	cell7.innerHTML = '<button type="button" class="btn btn-danger" onclick="deleteUser(this);">Delete</button>';
 
 	userCount++;
 }
@@ -528,4 +532,18 @@ function addNewUser() {
 function deleteUser(row) {
 	var i = row.parentNode.parentNode.rowIndex;
 	document.getElementById('user-list').deleteRow(i);
+}
+
+// Remove all Priority checkmarks.
+function clearPriority() {
+	console.log("Removing all priorities.");
+
+	var rowCount = document.getElementById("user-list-body").rows.length;
+	//console.log("Counted Rows: " + rowCount);
+
+	for (let step = 0; step < rowCount; step++) {
+		var id_to_process = document.getElementById("user-list-body").rows[step].cells[0].getElementsByTagName("input")[0].id;
+
+		document.getElementById(id_to_process).checked = false;
+	}
 }
