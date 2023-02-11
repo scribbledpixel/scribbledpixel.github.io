@@ -440,16 +440,27 @@ function shuffleGroups() {
 
 
 	while (arrayOfTanks.length > 0 && arrayOfHealers.length > 0 && arrayOfDPS.length >= 3) {
-
-		selectedTank = arrayOfTanks[getRandomInt(arrayOfTanks.length)];
-		removeFromLists(selectedTank);
+		if (arrayPriorityTanks.length > 0) {
+			selectedTank = arrayPriorityTanks[getRandomInt(arrayPriorityTanks.length)];
+			removeFromLists(selectedTank);
+		} else {
+			selectedTank = arrayOfTanks[getRandomInt(arrayOfTanks.length)];
+			removeFromLists(selectedTank);
+		}
 		//console.log("TANK: " + selectedTank);
 		//console.log("Tank array: " + arrayOfTanks);
 
-		selectedHealer = arrayOfHealers[getRandomInt(arrayOfHealers.length)];
-		removeFromLists(selectedHealer);
+		if (arrayPriorityHealers.length > 0) {
+			selectedHealer = arrayPriorityHealers[getRandomInt(arrayPriorityHealers.length)];
+			removeFromLists(selectedHealer);
+		} else {
+			selectedHealer = arrayOfHealers[getRandomInt(arrayOfHealers.length)];
+			removeFromLists(selectedHealer);
+		}
 		//console.log("HEALER: " + selectedHealer);
 		//console.log("Healer array: " + arrayOfHealers);
+
+
 
 		// THIS IS WRONG!
 		// Will need to check the DPS and healer lists again to ensure I'm not breaking a future group, BUT this is fine for the moment to see if i'm building groups.
@@ -491,20 +502,34 @@ function shuffleGroups() {
 		//} while (okToAdd === true);
 		//removeFromLists(selectedDPSOne);
 
-
-		selectedDPSOne = arrayOfDPS[getRandomInt(arrayOfDPS.length)];
+		if (arrayPriorityDPS.length > 0) {
+			selectedDPSOne = arrayPriorityDPS[getRandomInt(arrayPriorityDPS.length)];
+			removeFromLists(selectedDPSOne);
+		} else {
+			selectedDPSOne = arrayOfDPS[getRandomInt(arrayOfDPS.length)];
+			removeFromLists(selectedDPSOne);
+		}
 		// while arrayOfTanks & arrayOfHealers >= 1 & selectedDPSOne is in either array, keep looking for alternate options, unless arrayOfDPS is = 3.
-		removeFromLists(selectedDPSOne);
 		//console.log("DPS1: " + selectedDPSOne);
 
-		selectedDPSTwo = arrayOfDPS[getRandomInt(arrayOfDPS.length)];
+		if (arrayPriorityDPS.length > 0) {
+			selectedDPSTwo = arrayPriorityDPS[getRandomInt(arrayPriorityDPS.length)];
+			removeFromLists(selectedDPSTwo);
+		} else {
+			selectedDPSTwo = arrayOfDPS[getRandomInt(arrayOfDPS.length)];
+			removeFromLists(selectedDPSTwo);
+		}
 		// Same
-		removeFromLists(selectedDPSTwo);
 		//console.log("DPS2: " + selectedDPSTwo);
 
-		selectedDPSThree = arrayOfDPS[getRandomInt(arrayOfDPS.length)];
+		if (arrayPriorityDPS.length > 0) {
+			selectedDPSThree = arrayPriorityDPS[getRandomInt(arrayPriorityDPS.length)];
+			removeFromLists(selectedDPSThree);
+		} else {
+			selectedDPSThree = arrayOfDPS[getRandomInt(arrayOfDPS.length)];
+			removeFromLists(selectedDPSThree);
+		}
 		// Same
-		removeFromLists(selectedDPSThree);
 		//console.log("DPS3: " + selectedDPSThree);
 
 

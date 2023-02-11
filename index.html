@@ -23,7 +23,7 @@
 				<p>Remaining tasks:</p>
 
 				<ul>
-					<li>Priority for specific people so that they are ensured a group. This assumes there is enough room since we might have just 1 tank, 1 healer, and 4 DPS with priority, and 1 DPS without. One of the priority DPS won't get a space nor will the 1 DPS without priority.</li>
+					<li>Display the people who are on "reserve"...they didn't get a group.</li>
 					<li>Full write-up on how to use the page.</li>
 					<li>UI clean-up and refinements to make it more user friendly and web accessiblility features.</li>
 					<li>Check for duplicate player names and prevent that - maybe only when saving?</li>
@@ -72,9 +72,9 @@
 
 					<textarea id="import_box" cols="100" rows="10"></textarea>
 
-					<p id="import_button"><button type="button" class="btn btn-secondary" onclick="importData();">Import</button></p>
+					<p id="import_button" class="text-center"><button type="button" class="btn btn-secondary" onclick="importData();">Import</button></p>
 
-					<p id="import_confirm" style="display:none;"><strong>Data Imported</strong></p>
+					<p id="import_confirm" class="text-center" style="display:none;"><strong>Data Imported. Reload page to display data.</strong></p>
 				</div>
 			</div>
 		</div>
@@ -101,8 +101,6 @@
 	<div class="container">
 		<div class="row justify-content-center">
 			<div class="col-auto">
-
-				<p class="text-center"><strong>NOTE: Priority is not working currently.</strong></p>
 
 				<p class="text-center"><button type="button" class="btn btn-dark" onclick="clearPriority();" title="Uncheck all the people who currently have priority.">Clear Priority</button></p>
 
