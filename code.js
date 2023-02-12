@@ -443,7 +443,7 @@ function shuffleGroups() {
 		if (arrayPriorityTanks.length > 0) {
 			selectedTank = arrayPriorityTanks[getRandomInt(arrayPriorityTanks.length)];
 			removeFromLists(selectedTank);
-			selectedTank = "**" + selectedTank;
+			selectedTank = "*" + selectedTank;
 		} else {
 			selectedTank = arrayOfTanks[getRandomInt(arrayOfTanks.length)];
 			if (selectedTank == null) {
@@ -458,7 +458,7 @@ function shuffleGroups() {
 		if (arrayPriorityHealers.length > 0) {
 			selectedHealer = arrayPriorityHealers[getRandomInt(arrayPriorityHealers.length)];
 			removeFromLists(selectedHealer);
-			selectedHealer = "**" + selectedHealer;
+			selectedHealer = "*" + selectedHealer;
 		} else {
 			selectedHealer = arrayOfHealers[getRandomInt(arrayOfHealers.length)];
 			if (selectedHealer == null) {
@@ -515,7 +515,7 @@ function shuffleGroups() {
 		if (arrayPriorityDPS.length > 0) {
 			selectedDPSOne = arrayPriorityDPS[getRandomInt(arrayPriorityDPS.length)];
 			removeFromLists(selectedDPSOne);
-			selectedDPSOne = "**" + selectedDPSOne;
+			selectedDPSOne = "*" + selectedDPSOne;
 		} else {
 			selectedDPSOne = arrayOfDPS[getRandomInt(arrayOfDPS.length)];
 			if (selectedDPSOne == null) {
@@ -530,7 +530,7 @@ function shuffleGroups() {
 		if (arrayPriorityDPS.length > 0) {
 			selectedDPSTwo = arrayPriorityDPS[getRandomInt(arrayPriorityDPS.length)];
 			removeFromLists(selectedDPSTwo);
-			selectedDPSTwo = "**" + selectedDPSTwo;
+			selectedDPSTwo = "*" + selectedDPSTwo;
 		} else {
 			selectedDPSTwo = arrayOfDPS[getRandomInt(arrayOfDPS.length)];
 			if (selectedDPSTwo == null) {
@@ -545,7 +545,7 @@ function shuffleGroups() {
 		if (arrayPriorityDPS.length > 0) {
 			selectedDPSThree = arrayPriorityDPS[getRandomInt(arrayPriorityDPS.length)];
 			removeFromLists(selectedDPSThree);
-			selectedDPSThree = "**" + selectedDPSThree;
+			selectedDPSThree = "*" + selectedDPSThree;
 		} else {
 			selectedDPSThree = arrayOfDPS[getRandomInt(arrayOfDPS.length)];
 			if (selectedDPSThree == null) {
