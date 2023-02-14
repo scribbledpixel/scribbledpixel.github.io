@@ -567,7 +567,7 @@ function shuffleGroups() {
 	} // End While
 
 
-	if (arrayOfTanks.length > 0 || arrayOfHealers.length > 0 || arrayOfDPS > 0) {
+	if (arrayOfTanks.length > 0 || arrayOfHealers.length > 0 || arrayOfDPS.length > 0) {
 		// Output the remaining people.
 		var remainingPlayers = "<p><strong>Players without a group:</strong><br>";
 
