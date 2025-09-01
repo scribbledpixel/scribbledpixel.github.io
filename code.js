@@ -61,9 +61,7 @@ function saveList() {
 		user_name = user_name.replace(/,/g, "/");
 
 		// User Name
-		//user_string = user_string + document.getElementById(id_to_process).value;
 		user_string = user_string + user_name;
-
 
 		// If marked active
 		if (document.getElementById(id_to_process + "-active").checked) {
