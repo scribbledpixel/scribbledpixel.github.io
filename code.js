@@ -55,8 +55,15 @@ function saveList() {
 		var id_to_process = document.getElementById("user-list-body").rows[step].cells[2].getElementsByTagName("input")[0].id;
 		//console.log("ID to process: " + id_to_process);
 
+		// Remove illegal characters before saving. Replace them with "/".
+		var user_name = document.getElementById(id_to_process).value;
+		user_name = user_name.replace(/;/g, "/");
+		user_name = user_name.replace(/,/g, "/");
+
 		// User Name
-		user_string = user_string + document.getElementById(id_to_process).value;
+		//user_string = user_string + document.getElementById(id_to_process).value;
+		user_string = user_string + user_name;
+
 
 		// If marked active
 		if (document.getElementById(id_to_process + "-active").checked) {
