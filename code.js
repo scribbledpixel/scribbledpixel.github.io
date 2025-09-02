@@ -165,7 +165,8 @@ function loadGroups() {
 		//console.log("String to import: " + groupData);
 
 		const groupArray = groupData.split(";");
-		//groupArray.sort();
+		
+		// Sort data before displaying it.
 		groupArray.sort(function (a, b) {
 			return a.localeCompare(b, 'en', { 'sensitivity': 'base' });
 		});
