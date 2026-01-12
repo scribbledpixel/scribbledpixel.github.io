@@ -390,7 +390,7 @@
 
 
 	<script>
-		//API Call - testing
+		//API Call - Take all the data and process it.
 		function apiCall() {
 			var request_results;
 			var bundleChecked = false
@@ -483,12 +483,62 @@
 				.catch(error => console.error('Error submitting data:', error));
 
 
-				// Now cleanup the fields so that the cents are better.
+			// Now cleanup the fields so that the cents are better.
 
-				document.getElementById("investment-output-average-scan-revenue").value = "$" + Number.parseFloat(document.getElementById("investment-output-average-scan-revenue").value).toFixed(2);
-				//document.getElementById("investment-output-monthly-revenue").value = 
-				//document.getElementById("investment-output-break-even").value = 
-				//document.getElementById("investment-output-monthly-profit").value = 
+			document.getElementById("investment-output-average-scan-revenue").value = "$" + Number.parseFloat(document.getElementById("investment-output-average-scan-revenue").value).toFixed(2);
+			//document.getElementById("investment-output-monthly-revenue").value = 
+			//document.getElementById("investment-output-break-even").value = 
+			//document.getElementById("investment-output-monthly-profit").value = 
+		}
+
+
+
+
+		//API Call - Zip Code processing only.
+		function apiCallZipOnly() {
+			var request_results;
+
+			let zipcode = document.getElementById("investment-form-zip").value;
+			const complete_exam = false;
+			const bundle_exams = false;
+			const limited_exam = false;
+			const vmr_exam = false;
+			const emboli_exam = false;
+			const bubble_exam = false;
+			const facility_type = "Hospital";
+			const include_tte = false;
+			const payer_private = 25;
+			const payer_medicare = 25;
+			const payer_medicaid = 25;
+			const payer_unpaid = 25;
+			const monthly_lease = 100;
+			const annual_patients = 100;
+			const private_rate = 0;
+
+			const apiKey = "92729bae1f8f425c8646131a1b0dbb06";
+			const dataToSend = { zipcode: zipcode, complete_exam: complete_exam, bundle_exams: bundle_exams, limited_exam: limited_exam, vmr_exam: vmr_exam, emboli_exam: emboli_exam, bubble_exam: bubble_exam, facility_type: facility_type, include_tte: include_tte, payer_private: payer_private, payer_medicare: payer_medicare, payer_medicaid: payer_medicaid, payer_unpaid: payer_unpaid, monthly_lease: monthly_lease, annual_patients: annual_patients, private_rate: private_rate };
+
+			fetch('https://xfefqhtcvk.us-west-2.awsapprunner.com/calc', {
+				method: 'POST', // or 'GET' if appropriate
+				headers: {
+					'accept': 'application / json',
+					'Content-Type': 'application/json',
+					'X-API-Key': apiKey // Common header name for API keys
+					// You could also use the standard Authorization header:
+					// 'Authorization': `Bearer ${apiKey}`
+				},
+				body: JSON.stringify(dataToSend) // body only for POST/PUT
+			})
+				.then(response => response.json())
+				.then(data =>
+					request_results = data
+				)
+
+				.then(data => console.log(request_results))
+
+				.then(data => document.getElementById("investment-form-region").value = request_results.medicare_locality)
+
+				.catch(error => console.error('Error submitting data:', error));
 		}
 	</script>
 
@@ -538,7 +588,7 @@
 							<div class="investment-item-2row-item1">
 								<div class="investment-text-15px-label">
 									<label class="investment-label-padding" for="investment-form-zip">Local Zip Code</label><br>
-									<input class="investment-input-field" type="tel" name="investment-form-zip" id="investment-form-zip" maxlength="5" inputmode="numeric" pattern="[0-9]{5}" required aria-label="5 digit zip code" title="5 digit zip code" onkeypress="return onlyNumberKey(event);" />
+									<input class="investment-input-field" type="tel" name="investment-form-zip" id="investment-form-zip" maxlength="5" inputmode="numeric" pattern="[0-9]{5}" required aria-label="5 digit zip code" title="5 digit zip code" onkeypress="return onlyNumberKey(event);" onchange="apiCallZipOnly();" />
 								</div>
 							</div>
 
@@ -684,8 +734,8 @@
 							// const completeExamStatus = document.getElementById("tcd-complete-exam").checked;
 
 							// if (completeExamStatus === true) {
-								document.getElementById("tcd-complete-exam").checked = true;
-								document.getElementById("tcd-limited-exam").checked = false;
+							document.getElementById("tcd-complete-exam").checked = true;
+							document.getElementById("tcd-limited-exam").checked = false;
 							// }
 						}
 
@@ -694,7 +744,7 @@
 
 							if (limitedExamStatus === true) {
 								document.getElementById("tcd-complete-exam").checked = false;
-								
+
 								document.getElementById("tcd-bundle-exams-1").checked = false;
 								document.getElementById("tcd-bundle-exams-2").checked = false;
 								document.getElementById("tcd-bundle-exams-3").checked = false;
