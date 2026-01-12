@@ -303,7 +303,12 @@
 			let ASCIICode = (evt.which) ? evt.which : evt.keyCode;
 			//if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
 
-			// Allow only numbers
+			// Allow only numbers and backspace
+			// 8 = Backspace
+			// 9 = Tab
+			// 13 = Enter
+			if (ASCIICode == 8 || ASCIICode == 13 || ASCIICode == 9)
+				return true;
 			if (ASCIICode < 48 || ASCIICode > 57)
 				return false;
 			return true;
@@ -434,23 +439,6 @@
 			// const monthly_lease = 100;
 			// const annual_patients = 100;
 			// const private_rate = 0;
-
-			console.log(zipcode);
-			console.log(complete_exam);
-			console.log(bundle_exams);
-			console.log(limited_exam);
-			console.log(vmr_exam);
-			console.log(emboli_exam);
-			console.log(bubble_exam);
-			console.log(facility_type);
-			console.log(include_tte);
-			console.log(payer_private);
-			console.log(payer_medicare);
-			console.log(payer_medicaid);
-			console.log(payer_unpaid);
-			console.log(monthly_lease);
-			console.log(annual_patients);
-			console.log(private_rate);
 
 			const apiKey = "92729bae1f8f425c8646131a1b0dbb06";
 			const dataToSend = { zipcode: zipcode, complete_exam: complete_exam, bundle_exams: bundle_exams, limited_exam: limited_exam, vmr_exam: vmr_exam, emboli_exam: emboli_exam, bubble_exam: bubble_exam, facility_type: facility_type, include_tte: include_tte, payer_private: payer_private, payer_medicare: payer_medicare, payer_medicaid: payer_medicaid, payer_unpaid: payer_unpaid, monthly_lease: monthly_lease, annual_patients: annual_patients, private_rate: private_rate };
@@ -588,7 +576,7 @@
 							<div class="investment-item-2row-item1">
 								<div class="investment-text-15px-label">
 									<label class="investment-label-padding" for="investment-form-zip">Local Zip Code</label><br>
-									<input class="investment-input-field" type="tel" name="investment-form-zip" id="investment-form-zip" maxlength="5" inputmode="numeric" pattern="[0-9]{5}" required aria-label="5 digit zip code" title="5 digit zip code" onkeypress="return onlyNumberKey(event);" onchange="apiCallZipOnly();" />
+									<input class="investment-input-field" type="tel" name="investment-form-zip" id="investment-form-zip" maxlength="5" inputmode="numeric" pattern="[0-9]{5}" required aria-label="5 digit zip code" title="5 digit zip code" onkeydown="return onlyNumberKey(event);" onchange="apiCallZipOnly();" />
 								</div>
 							</div>
 
