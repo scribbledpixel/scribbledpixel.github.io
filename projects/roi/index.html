@@ -204,6 +204,10 @@
 			width: 100%;
 		}
 
+		.addonOptions {
+			opacity: 50%;
+		}
+
 		/* End: Form Group Dollars */
 
 		/* .investment-input-form input,
@@ -322,15 +326,35 @@
 			// Get the current value of the lease amount.
 			const leaseValue = document.getElementById("investment-input-monthly-lease-payment").value;
 
-			const regex = /[.]/
+			// const regex = /[.]/
 
-			const dotCheck = leaseValue.search(regex);
+			// const dotCheck = leaseValue.search(regex);
 
-			if (ASCIICode == 46 && dotCheck > -1)
-				return false;
+			// if (ASCIICode == 46) {
+			// 	console.log("Period entered.");
+			// }
+
+			// console.log("Check: " + dotCheck);
+
+			// Allow only numbers and backspace
+			// 8 = Backspace
+			// 9 = Tab
+			// 13 = Enter
+			// 46 = Period?
+			// 190 = Period?
+
+
+
+			// if (ASCIICode == 46 && dotCheck > -1)
+			// 	return false;
+
+			console.log(ASCIICode);
+
+			if (ASCIICode == 46 || ASCIICode == 190 || ASCIICode == 8 || ASCIICode == 13 || ASCIICode == 9)
+				return true;
 
 			// Allow only numbers and decimal points
-			if (ASCIICode != 46 && (ASCIICode < 48 || ASCIICode > 57))
+			if (ASCIICode < 48 || ASCIICode > 57)
 				return false;
 			return true;
 		}
@@ -479,54 +503,56 @@
 			//document.getElementById("investment-output-monthly-profit").value = 
 		}
 
-
-
-
 		//API Call - Zip Code processing only.
 		function apiCallZipOnly() {
 			var request_results;
 
-			let zipcode = document.getElementById("investment-form-zip").value;
-			const complete_exam = false;
-			const bundle_exams = false;
-			const limited_exam = false;
-			const vmr_exam = false;
-			const emboli_exam = false;
-			const bubble_exam = false;
-			const facility_type = "Hospital";
-			const include_tte = false;
-			const payer_private = 25;
-			const payer_medicare = 25;
-			const payer_medicaid = 25;
-			const payer_unpaid = 25;
-			const monthly_lease = 100;
-			const annual_patients = 100;
-			const private_rate = 0;
+			const zipfieldLength = document.getElementById("investment-form-zip").value;
 
-			const apiKey = "92729bae1f8f425c8646131a1b0dbb06";
-			const dataToSend = { zipcode: zipcode, complete_exam: complete_exam, bundle_exams: bundle_exams, limited_exam: limited_exam, vmr_exam: vmr_exam, emboli_exam: emboli_exam, bubble_exam: bubble_exam, facility_type: facility_type, include_tte: include_tte, payer_private: payer_private, payer_medicare: payer_medicare, payer_medicaid: payer_medicaid, payer_unpaid: payer_unpaid, monthly_lease: monthly_lease, annual_patients: annual_patients, private_rate: private_rate };
+			if (zipfieldLength.length === 5) {
 
-			fetch('https://xfefqhtcvk.us-west-2.awsapprunner.com/calc', {
-				method: 'POST', // or 'GET' if appropriate
-				headers: {
-					'accept': 'application / json',
-					'Content-Type': 'application/json',
-					'X-API-Key': apiKey // Common header name for API keys
-					// You could also use the standard Authorization header:
-					// 'Authorization': `Bearer ${apiKey}`
-				},
-				body: JSON.stringify(dataToSend) // body only for POST/PUT
-			})
-				.then(response => response.json())
-				.then(data =>
-					request_results = data
-				)
+				let zipcode = document.getElementById("investment-form-zip").value;
+				const complete_exam = false;
+				const bundle_exams = false;
+				const limited_exam = false;
+				const vmr_exam = false;
+				const emboli_exam = false;
+				const bubble_exam = false;
+				const facility_type = "Hospital";
+				const include_tte = false;
+				const payer_private = 25;
+				const payer_medicare = 25;
+				const payer_medicaid = 25;
+				const payer_unpaid = 25;
+				const monthly_lease = 100;
+				const annual_patients = 100;
+				const private_rate = 0;
 
-				.then(data => console.log(request_results))
+				const apiKey = "92729bae1f8f425c8646131a1b0dbb06";
+				const dataToSend = { zipcode: zipcode, complete_exam: complete_exam, bundle_exams: bundle_exams, limited_exam: limited_exam, vmr_exam: vmr_exam, emboli_exam: emboli_exam, bubble_exam: bubble_exam, facility_type: facility_type, include_tte: include_tte, payer_private: payer_private, payer_medicare: payer_medicare, payer_medicaid: payer_medicaid, payer_unpaid: payer_unpaid, monthly_lease: monthly_lease, annual_patients: annual_patients, private_rate: private_rate };
 
-				.then(data => document.getElementById("investment-form-region").value = request_results.medicare_locality)
+				fetch('https://xfefqhtcvk.us-west-2.awsapprunner.com/calc', {
+					method: 'POST', // or 'GET' if appropriate
+					headers: {
+						'accept': 'application / json',
+						'Content-Type': 'application/json',
+						'X-API-Key': apiKey // Common header name for API keys
+						// You could also use the standard Authorization header:
+						// 'Authorization': `Bearer ${apiKey}`
+					},
+					body: JSON.stringify(dataToSend) // body only for POST/PUT
+				})
+					.then(response => response.json())
+					.then(data =>
+						request_results = data
+					)
 
-				.catch(error => console.error('Error submitting data:', error));
+					.then(data => console.log(request_results))
+
+					.then(data => document.getElementById("investment-form-region").value = request_results.medicare_locality)
+
+					.catch(error => console.error('Error submitting data:', error));
+			}
 		}
 	</script>
 
@@ -563,7 +589,7 @@
 	<div class="form-background">
 		<div class="investment-page-margin">
 			<div class="investment-input-form">
-				<form action="" method="get" class="">
+				<form action="" method="get">
 
 					<!-- Start: Hospital Info -->
 					<div class="investment-text-header">
@@ -594,7 +620,7 @@
 							<div class="investment-item-2row-item1">
 								<div class="investment-text-15px-label">
 									<label class="investment-label-padding" for="investment-form-annual-patients">Annual Patients</label><br>
-									<input class="investment-input-field" type="tel" name="investment-form-annual-patients" id="investment-form-annual-patients" pattern="[0-9]" required aria-label="Number of annual patients" title="Number of annual patients" onkeypress="return onlyNumberKey(event);" oninput="averagePatientsCalc();" />
+									<input class="investment-input-field" type="tel" name="investment-form-annual-patients" id="investment-form-annual-patients" pattern="[0-9]" required aria-label="Number of annual patients" title="Number of annual patients" onkeydown="return onlyNumberKey(event);" oninput="averagePatientsCalc();" />
 								</div>
 							</div>
 
@@ -612,12 +638,25 @@
 							Location Payer Mix
 						</div>
 
+						<script>
+							function clearEmptyField(item) {
+								const elementToCheck = document.getElementById(item.id).value;
+								//console.log("Item: " + elementToCheck);
+
+								if (elementToCheck === "0") {
+									//console.log("Is Zero.");
+									document.getElementById(item.id).value = "";
+								}
+
+							}
+						</script>
+
 						<div class="investment-container-2item">
 							<div class="investment-item-2row-item1">
 								<div class="investment-text-14px-label investment-element-padding">
 									<label class="investment-label-padding" for="investment-form-private-insurance">Private Insurance</label>
 									<div class="form-group-full-percentage">
-										<input class="investment-input-field" type="tel" name="investment-form-private-insurance" id="investment-form-private-insurance" pattern="[0-9]" required onkeypress="return onlyNumberKey(event);" oninput="locationPayerMix();" value="0" />
+										<input class="investment-input-field" type="tel" name="investment-form-private-insurance" id="investment-form-private-insurance" pattern="[0-9]" maxlength="3" required onkeydown="return onlyNumberKey(event);" oninput="locationPayerMix();" onclick="clearEmptyField(this);" value="0" />
 										<label>%</label>
 									</div>
 								</div>
@@ -627,7 +666,7 @@
 								<div class="investment-text-14px-label investment-element-padding">
 									<label class="investment-label-padding" for="investment-form-medicade">Medicaid</label>
 									<div class="form-group-full-percentage">
-										<input class="investment-input-field" type="tel" name="investment-form-medicade" id="investment-form-medicade" pattern="[0-9]" required onkeypress="return onlyNumberKey(event);" oninput="locationPayerMix();" value="0" />
+										<input class="investment-input-field" type="tel" name="investment-form-medicade" id="investment-form-medicade" pattern="[0-9]" maxlength="3" required onkeydown="return onlyNumberKey(event);" oninput="locationPayerMix();" onclick="clearEmptyField(this);" value="0" />
 										<label>%</label>
 									</div>
 								</div>
@@ -639,7 +678,7 @@
 								<div class="investment-text-14px-label investment-element-padding">
 									<label class="investment-label-padding" for="investment-form-medicare">Medicare</label>
 									<div class="form-group-full-percentage">
-										<input class="investment-input-field" type="tel" type="tel" name="investment-form-medicare" id="investment-form-medicare" pattern="[0-9]" required onkeypress="return onlyNumberKey(event);" oninput="locationPayerMix();" value="0" />
+										<input class="investment-input-field" type="tel" type="tel" name="investment-form-medicare" id="investment-form-medicare" pattern="[0-9]" maxlength="3" required onkeydown="return onlyNumberKey(event);" oninput="locationPayerMix();" onclick="clearEmptyField(this);" value="0" />
 										<label>%</label>
 									</div>
 								</div>
@@ -649,7 +688,7 @@
 								<div class="investment-text-14px-label investment-element-padding">
 									<label class="investment-label-padding" for="investment-form-uninsured">Uninsured / No-Pay</label>
 									<div class="form-group-full-percentage">
-										<input class="investment-input-field" type="tel" type="tel" name="investment-form-uninsured" id="investment-form-uninsured" pattern="[0-9]" required onkeypress="return onlyNumberKey(event);" oninput="locationPayerMix();" value="0" />
+										<input class="investment-input-field" type="tel" type="tel" name="investment-form-uninsured" id="investment-form-uninsured" pattern="[0-9]" maxlength="3" required onkeydown="return onlyNumberKey(event);" oninput="locationPayerMix();" onclick="clearEmptyField(this);" value="0" />
 										<label>%</label>
 									</div>
 								</div>
@@ -691,7 +730,7 @@
 								<label class="investment-label-padding" for="investment-input-monthly-lease-payment">Monthly Lease Payment</label><br>
 								<div class="form-group-full-dollars">
 									<label>$</label>
-									<input class="investment-input-field" type="tel" name="investment-input-monthly-lease-payment" id="investment-input-monthly-lease-payment" pattern="[0-9]+[\.][0-9]" required onkeypress="return onlyNumberKeyFloat(event);" oninput="trimCents();" />
+									<input class="investment-input-field" type="tel" name="investment-input-monthly-lease-payment" id="investment-input-monthly-lease-payment" pattern="[0-9]+[\.][0-9]" required onkeydown="return onlyNumberKeyFloat(event);" oninput="trimCents();" />
 								</div>
 							</div>
 						</div>
@@ -709,10 +748,12 @@
 							// document.getElementById("tcd-limited-exam").checked = false;
 
 							if (completeExamStatus === false) {
+								document.getElementById("addonOptions").style.opacity = "50%";
 								document.getElementById("tcd-bundle-exams-1").checked = false;
 								document.getElementById("tcd-bundle-exams-2").checked = false;
 								document.getElementById("tcd-bundle-exams-3").checked = false;
 							} else {
+								document.getElementById("addonOptions").style.opacity = "100%";
 								document.getElementById("tcd-limited-exam").checked = false;
 							}
 						}
@@ -724,6 +765,7 @@
 							// if (completeExamStatus === true) {
 							document.getElementById("tcd-complete-exam").checked = true;
 							document.getElementById("tcd-limited-exam").checked = false;
+							document.getElementById("addonOptions").style.opacity = "100%";
 							// }
 						}
 
@@ -736,6 +778,7 @@
 								document.getElementById("tcd-bundle-exams-1").checked = false;
 								document.getElementById("tcd-bundle-exams-2").checked = false;
 								document.getElementById("tcd-bundle-exams-3").checked = false;
+								document.getElementById("addonOptions").style.opacity = "50%";
 							}
 						}
 					</script>
@@ -754,16 +797,18 @@
 								<input type="checkbox" name="tcd-complete-exam" id="tcd-complete-exam" value="" onclick="completeExamCheck();" /> <label for="tcd-complete-exam">TCD Complete Study - 93886</label>
 							</div>
 
-							<div class="investment-list-indent investment-text-14px-label investment-element-padding">
-								<input type="checkbox" name="tcd-bundle-exams-1" id="tcd-bundle-exams-1" value="" onclick="activateCompleteExam();" /> <label for="tcd-bundle-exams-1">Add-on: Vasoreactivity to Complete TCD Eval - 93896</label>
-							</div>
+							<div id="addonOptions" class="addonOptions">
+								<div class="investment-list-indent investment-text-14px-label investment-element-padding">
+									<input type="checkbox" name="tcd-bundle-exams-1" id="tcd-bundle-exams-1" value="" onclick="activateCompleteExam();" /> <label for="tcd-bundle-exams-1">Add-on: Vasoreactivity to Complete TCD Eval - 93896</label>
+								</div>
 
-							<div class="investment-list-indent investment-text-14px-label investment-element-padding">
-								<input type="checkbox" name="tcd-bundle-exams-2" id="tcd-bundle-exams-2" value="" onclick="activateCompleteExam();" /> <label for="tcd-bundle-exams-2">Add-on: Emboli Detection to Complete TCD Eval - 93897</label>
-							</div>
+								<div class="investment-list-indent investment-text-14px-label investment-element-padding">
+									<input type="checkbox" name="tcd-bundle-exams-2" id="tcd-bundle-exams-2" value="" onclick="activateCompleteExam();" /> <label for="tcd-bundle-exams-2">Add-on: Emboli Detection to Complete TCD Eval - 93897</label>
+								</div>
 
-							<div class="investment-list-indent investment-text-14px-label investment-element-padding">
-								<input type="checkbox" name="tcd-bundle-exams-3" id="tcd-bundle-exams-3" value="" onclick="activateCompleteExam();" /> <label for="tcd-bundle-exams-3">Add-on: Bubble for PFT Detection to Complete TCD Eval - 93898</label>
+								<div class="investment-list-indent investment-text-14px-label investment-element-padding">
+									<input type="checkbox" name="tcd-bundle-exams-3" id="tcd-bundle-exams-3" value="" onclick="activateCompleteExam();" /> <label for="tcd-bundle-exams-3">Add-on: Bubble for PFT Detection to Complete TCD Eval - 93898</label>
+								</div>
 							</div>
 
 							<div class="investment-text-15px-label investment-element-padding">
@@ -779,11 +824,27 @@
 							</div>
 						</div>
 
-						<!-- <p>&nbsp;</p>
+						<p>&nbsp;</p>
+
+						<style>
+							.submitButton {
+								background-color: #54BBE4;
+								padding-top: 10px;
+								padding-bottom: 10px;
+								font-family: "Open Sans", sans-serif;
+								font-size: 15px;
+								font-weight: 600;
+								border-radius: 12px;
+								border: none;
+								max-width: 300px;
+								width: 100%;
+							}
+						</style>
 
 						<div style="text-align: center;">
-							<input type="submit" value="(Temp) Process Form" />
-						</div> -->
+							<input class="submitButton" onclick="apiCall();" type="button" value="Enter" />
+							<!-- <input class="submitButton" onclick="apiCall();" type="submit" value="Enter" /> -->
+						</div>
 
 					</div>
 					<!-- End: Exam Types -->
@@ -793,11 +854,11 @@
 
 				<p>&nbsp;</p>
 
-				<div style="text-align: center;">
+				<!-- <div style="text-align: center;">
 					<button onclick="apiCall();">(Temp) Calculate Values</button>
 				</div>
 
-				<p>&nbsp;</p>
+				<p>&nbsp;</p> -->
 
 				<!-- This part should compute all the above information. -->
 				<!-- All this should be static outputs and not text inputs. -->
