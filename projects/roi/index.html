@@ -16,6 +16,7 @@
 	<style>
 		/* Start: possible temp code */
 		body {
+			background-color: #020618;
 			color: #FFF;
 			font-optical-sizing: auto;
 			padding: 0;
@@ -174,6 +175,19 @@
 			margin-bottom: 6px;
 		}
 
+		.submitButton {
+			background-color: #54BBE4;
+			padding-top: 10px;
+			padding-bottom: 10px;
+			font-family: "Open Sans", sans-serif;
+			font-size: 15px;
+			font-weight: 600;
+			border-radius: 12px;
+			border: none;
+			max-width: 300px;
+			width: 100%;
+		}
+
 		/* Start: Form Group Percentage */
 		.form-group-full-percentage {
 			display: flex;
@@ -209,16 +223,6 @@
 		}
 
 		/* End: Form Group Dollars */
-
-		/* .investment-input-form input,
-		.investment-output-form input {
-			
-		} */
-
-
-		/*
-			input:invalid {
-		*/
 	</style>
 
 	<style>
@@ -301,64 +305,6 @@
 	</style>
 
 	<script>
-		// Function to allow only numbers to be entered in specified text fields.
-		function onlyNumberKey(evt) {
-			// Only ASCII character in that range allowed
-			let ASCIICode = (evt.which) ? evt.which : evt.keyCode;
-			//if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
-
-			// Allow only numbers and backspace
-			// 8 = Backspace
-			// 9 = Tab
-			// 13 = Enter
-			if (ASCIICode == 8 || ASCIICode == 13 || ASCIICode == 9)
-				return true;
-			if (ASCIICode < 48 || ASCIICode > 57)
-				return false;
-			return true;
-		}
-
-		// Function to allow only numbers and decimal points to be entered in specified text field.
-		function onlyNumberKeyFloat(evt) {
-			// Only ASCII character in that range allowed
-			let ASCIICode = (evt.which) ? evt.which : evt.keyCode;
-
-			// Get the current value of the lease amount.
-			const leaseValue = document.getElementById("investment-input-monthly-lease-payment").value;
-
-			// const regex = /[.]/
-
-			// const dotCheck = leaseValue.search(regex);
-
-			// if (ASCIICode == 46) {
-			// 	console.log("Period entered.");
-			// }
-
-			// console.log("Check: " + dotCheck);
-
-			// Allow only numbers and backspace
-			// 8 = Backspace
-			// 9 = Tab
-			// 13 = Enter
-			// 46 = Period?
-			// 190 = Period?
-
-
-
-			// if (ASCIICode == 46 && dotCheck > -1)
-			// 	return false;
-
-			console.log(ASCIICode);
-
-			if (ASCIICode == 46 || ASCIICode == 190 || ASCIICode == 8 || ASCIICode == 13 || ASCIICode == 9)
-				return true;
-
-			// Allow only numbers and decimal points
-			if (ASCIICode < 48 || ASCIICode > 57)
-				return false;
-			return true;
-		}
-
 		// Calculate the average number of patients per month, rounded to the nearest whole number.
 		function averagePatientsCalc() {
 			const annualPatients = document.getElementById("investment-form-annual-patients").value;
@@ -367,32 +313,31 @@
 			document.getElementById("investment-form-average-monthly-patients").value = averageMonthlyPatients;
 		}
 
-		function trimCents() {
-			let dollarValue = document.getElementById("investment-input-monthly-lease-payment").value;
-
-			if (dollarValue.includes('.')) {
-				const decimalCount = parseInt(dollarValue.split('.')[1].length);
-
-				// Shorten the string if there are more than 2 digits after the decimal point.
-				if (decimalCount > 2) {
-					document.getElementById("investment-input-monthly-lease-payment").value = Number.parseFloat(dollarValue).toFixed(2);
-				}
-			}
-		}
-
 		// Calculate the Location Payer Mix percentages. Total should be 100% otherwise it is an error.
 		function locationPayerMix() {
 			//Private Insurance
-			const userPrivateInsurance = document.getElementById("investment-form-private-insurance").value;
+			let userPrivateInsurance = document.getElementById("investment-form-private-insurance").value;
+			if (userPrivateInsurance === "") {
+				userPrivateInsurance = 0;
+			}
 
 			//Medicaid
-			const userMedicaid = document.getElementById("investment-form-medicade").value;
+			let userMedicaid = document.getElementById("investment-form-medicade").value;
+			if (userMedicaid === "") {
+				userMedicaid = 0;
+			}
 
 			//Medicare
-			const userMedicare = document.getElementById("investment-form-medicare").value;
+			let userMedicare = document.getElementById("investment-form-medicare").value;
+			if (userMedicare === "") {
+				userMedicare = 0;
+			}
 
 			//Uninsured / No-Pay
-			const userUninsured = document.getElementById("investment-form-uninsured").value;
+			let userUninsured = document.getElementById("investment-form-uninsured").value;
+			if (userUninsured === "") {
+				userUninsured = 0;
+			}
 
 			const userMixTotal = parseInt(userPrivateInsurance) + parseInt(userMedicaid) + parseInt(userMedicare) + parseInt(userUninsured);
 
@@ -417,6 +362,61 @@
 		}
 	</script>
 
+	<script>
+		// If "Complete Exam" is unchecked, need to uncheck the add-ons.
+		function completeExamCheck() {
+			const completeExamStatus = document.getElementById("tcd-complete-exam").checked;
+
+			if (completeExamStatus === false) {
+				document.getElementById("addonOptions").style.opacity = "50%";
+				document.getElementById("tcd-bundle-exams-1").checked = false;
+				document.getElementById("tcd-bundle-exams-2").checked = false;
+				document.getElementById("tcd-bundle-exams-3").checked = false;
+			} else {
+				document.getElementById("addonOptions").style.opacity = "100%";
+				document.getElementById("tcd-limited-exam").checked = false;
+			}
+		}
+
+		// If an add-on is checked and "Complete Exam" is not checked, check it.
+		function activateCompleteExam() {
+			document.getElementById("tcd-complete-exam").checked = true;
+			document.getElementById("tcd-limited-exam").checked = false;
+			document.getElementById("addonOptions").style.opacity = "100%";
+		}
+
+		function activateLimitedExam() {
+			const limitedExamStatus = document.getElementById("tcd-limited-exam").checked;
+
+			if (limitedExamStatus === true) {
+				document.getElementById("tcd-complete-exam").checked = false;
+
+				document.getElementById("tcd-bundle-exams-1").checked = false;
+				document.getElementById("tcd-bundle-exams-2").checked = false;
+				document.getElementById("tcd-bundle-exams-3").checked = false;
+				document.getElementById("addonOptions").style.opacity = "50%";
+			}
+		}
+	</script>
+
+	<script>
+		function clearEmptyField(item) {
+			const elementToCheck = document.getElementById(item.id).value;
+
+			if (elementToCheck === "0") {
+				document.getElementById(item.id).value = "";
+			}
+		}
+
+		// When a percentage field loses focus, and its empty, put the zero back.
+		function returnZero(item) {
+			const elementToCheck = document.getElementById(item.id).value;
+
+			if (elementToCheck === "") {
+				document.getElementById(item.id).value = "0";
+			}
+		}
+	</script>
 
 	<script>
 		//API Call - Take all the data and process it.
@@ -447,60 +447,50 @@
 			let annual_patients = parseInt(document.getElementById("investment-form-annual-patients").value);
 			let private_rate = 0;
 
-			// const zipcode = "92603";
-			// const complete_exam = false;
-			// const bundle_exams = false;
-			// const limited_exam = false;
-			// const vmr_exam = false;
-			// const emboli_exam = false;
-			// const bubble_exam = false;
-			// const facility_type = "Hospital";
-			// const include_tte = false;
-			// const payer_private = 25;
-			// const payer_medicare = 25;
-			// const payer_medicaid = 25;
-			// const payer_unpaid = 25;
-			// const monthly_lease = 100;
-			// const annual_patients = 100;
-			// const private_rate = 0;
-
 			const apiKey = "92729bae1f8f425c8646131a1b0dbb06";
 			const dataToSend = { zipcode: zipcode, complete_exam: complete_exam, bundle_exams: bundle_exams, limited_exam: limited_exam, vmr_exam: vmr_exam, emboli_exam: emboli_exam, bubble_exam: bubble_exam, facility_type: facility_type, include_tte: include_tte, payer_private: payer_private, payer_medicare: payer_medicare, payer_medicaid: payer_medicaid, payer_unpaid: payer_unpaid, monthly_lease: monthly_lease, annual_patients: annual_patients, private_rate: private_rate };
 
 			fetch('https://xfefqhtcvk.us-west-2.awsapprunner.com/calc', {
-				method: 'POST', // or 'GET' if appropriate
+				method: 'POST',
 				headers: {
 					'accept': 'application / json',
 					'Content-Type': 'application/json',
-					'X-API-Key': apiKey // Common header name for API keys
-					// You could also use the standard Authorization header:
-					// 'Authorization': `Bearer ${apiKey}`
+					'X-API-Key': apiKey
 				},
-				body: JSON.stringify(dataToSend) // body only for POST/PUT
+				body: JSON.stringify(dataToSend)
 			})
 				.then(response => response.json())
 				.then(data =>
 					request_results = data
 				)
 
-				.then(data => console.log(request_results))
+				//.then(data => console.log(request_results))
 
-				.then(data => document.getElementById("investment-form-region").value = request_results.medicare_locality)
+				//.then(data => document.getElementById("investment-form-region").value = request_results.medicare_locality)
 
-				.then(data => document.getElementById("investment-output-average-scan-revenue").value = "$" + Number.parseFloat(request_results.average_scan_revenue).toFixed(2))
-				.then(data => document.getElementById("investment-output-monthly-revenue").value = "$" + Number.parseFloat(request_results.monthly_revenue).toFixed(2))
+				.then(data => document.getElementById("investment-output-average-scan-revenue").value = "$" + Number.parseFloat(request_results.average_scan_revenue)
+					.toLocaleString('en-US', {
+						minimumFractionDigits: 2,
+						maximumFractionDigits: 2
+					}))
+
+				.then(data => document.getElementById("investment-output-monthly-revenue").value = "$" + Number.parseFloat(request_results.monthly_revenue)
+					.toLocaleString('en-US', {
+						minimumFractionDigits: 2,
+						maximumFractionDigits: 2
+					}))
+
 				.then(data => document.getElementById("investment-output-break-even").value = request_results.monthly_scans_to_break_even)
-				.then(data => document.getElementById("investment-output-monthly-profit").value = "$" + Number.parseFloat(request_results.monthly_profit).toFixed(2))
+
+				.then(data => document.getElementById("investment-output-monthly-profit").value = "$" + Number.parseFloat(request_results.monthly_profit)
+					.toLocaleString('en-US', {
+						minimumFractionDigits: 2,
+						maximumFractionDigits: 2
+					}))
 
 				.catch(error => console.error('Error submitting data:', error));
 
-
-			// Now cleanup the fields so that the cents are better.
-
-			document.getElementById("investment-output-average-scan-revenue").value = "$" + Number.parseFloat(document.getElementById("investment-output-average-scan-revenue").value).toFixed(2);
-			//document.getElementById("investment-output-monthly-revenue").value = 
-			//document.getElementById("investment-output-break-even").value = 
-			//document.getElementById("investment-output-monthly-profit").value = 
+			document.getElementById("results").scrollIntoView({ behavior: "smooth" });
 		}
 
 		//API Call - Zip Code processing only.
@@ -532,22 +522,20 @@
 				const dataToSend = { zipcode: zipcode, complete_exam: complete_exam, bundle_exams: bundle_exams, limited_exam: limited_exam, vmr_exam: vmr_exam, emboli_exam: emboli_exam, bubble_exam: bubble_exam, facility_type: facility_type, include_tte: include_tte, payer_private: payer_private, payer_medicare: payer_medicare, payer_medicaid: payer_medicaid, payer_unpaid: payer_unpaid, monthly_lease: monthly_lease, annual_patients: annual_patients, private_rate: private_rate };
 
 				fetch('https://xfefqhtcvk.us-west-2.awsapprunner.com/calc', {
-					method: 'POST', // or 'GET' if appropriate
+					method: 'POST',
 					headers: {
 						'accept': 'application / json',
 						'Content-Type': 'application/json',
-						'X-API-Key': apiKey // Common header name for API keys
-						// You could also use the standard Authorization header:
-						// 'Authorization': `Bearer ${apiKey}`
+						'X-API-Key': apiKey
 					},
-					body: JSON.stringify(dataToSend) // body only for POST/PUT
+					body: JSON.stringify(dataToSend)
 				})
 					.then(response => response.json())
 					.then(data =>
 						request_results = data
 					)
 
-					.then(data => console.log(request_results))
+					//.then(data => console.log(request_results))
 
 					.then(data => document.getElementById("investment-form-region").value = request_results.medicare_locality)
 
@@ -602,7 +590,7 @@
 							<div class="investment-item-2row-item1">
 								<div class="investment-text-15px-label">
 									<label class="investment-label-padding" for="investment-form-zip">Local Zip Code</label><br>
-									<input class="investment-input-field" type="tel" name="investment-form-zip" id="investment-form-zip" maxlength="5" inputmode="numeric" pattern="[0-9]{5}" required aria-label="5 digit zip code" title="5 digit zip code" onkeydown="return onlyNumberKey(event);" onchange="apiCallZipOnly();" />
+									<input class="investment-input-field" type="tel" name="investment-form-zip" id="investment-form-zip" maxlength="5" inputmode="numeric" pattern="[0-9]{5}" required aria-label="5 digit zip code" title="5 digit zip code" oninput="apiCallZipOnly();" />
 								</div>
 							</div>
 
@@ -620,7 +608,7 @@
 							<div class="investment-item-2row-item1">
 								<div class="investment-text-15px-label">
 									<label class="investment-label-padding" for="investment-form-annual-patients">Annual Patients</label><br>
-									<input class="investment-input-field" type="tel" name="investment-form-annual-patients" id="investment-form-annual-patients" pattern="[0-9]" required aria-label="Number of annual patients" title="Number of annual patients" onkeydown="return onlyNumberKey(event);" oninput="averagePatientsCalc();" />
+									<input class="investment-input-field" type="tel" name="investment-form-annual-patients" id="investment-form-annual-patients" inputmode="numeric" pattern="[0-9]*" required aria-label="Number of annual patients" title="Number of annual patients" oninput="averagePatientsCalc();" />
 								</div>
 							</div>
 
@@ -638,25 +626,12 @@
 							Location Payer Mix
 						</div>
 
-						<script>
-							function clearEmptyField(item) {
-								const elementToCheck = document.getElementById(item.id).value;
-								//console.log("Item: " + elementToCheck);
-
-								if (elementToCheck === "0") {
-									//console.log("Is Zero.");
-									document.getElementById(item.id).value = "";
-								}
-
-							}
-						</script>
-
 						<div class="investment-container-2item">
 							<div class="investment-item-2row-item1">
 								<div class="investment-text-14px-label investment-element-padding">
 									<label class="investment-label-padding" for="investment-form-private-insurance">Private Insurance</label>
 									<div class="form-group-full-percentage">
-										<input class="investment-input-field" type="tel" name="investment-form-private-insurance" id="investment-form-private-insurance" pattern="[0-9]" maxlength="3" required onkeydown="return onlyNumberKey(event);" oninput="locationPayerMix();" onclick="clearEmptyField(this);" value="0" />
+										<input class="investment-input-field" type="tel" name="investment-form-private-insurance" id="investment-form-private-insurance" inputmode="numeric" pattern="[0-9]*" maxlength="3" required oninput="locationPayerMix();" onclick="clearEmptyField(this);" onblur="returnZero(this);" value="0" />
 										<label>%</label>
 									</div>
 								</div>
@@ -666,7 +641,7 @@
 								<div class="investment-text-14px-label investment-element-padding">
 									<label class="investment-label-padding" for="investment-form-medicade">Medicaid</label>
 									<div class="form-group-full-percentage">
-										<input class="investment-input-field" type="tel" name="investment-form-medicade" id="investment-form-medicade" pattern="[0-9]" maxlength="3" required onkeydown="return onlyNumberKey(event);" oninput="locationPayerMix();" onclick="clearEmptyField(this);" value="0" />
+										<input class="investment-input-field" type="tel" name="investment-form-medicade" id="investment-form-medicade" inputmode="numeric" pattern="[0-9]*" maxlength="3" required oninput="locationPayerMix();" onclick="clearEmptyField(this);" onblur="returnZero(this);" value="0" />
 										<label>%</label>
 									</div>
 								</div>
@@ -678,7 +653,7 @@
 								<div class="investment-text-14px-label investment-element-padding">
 									<label class="investment-label-padding" for="investment-form-medicare">Medicare</label>
 									<div class="form-group-full-percentage">
-										<input class="investment-input-field" type="tel" type="tel" name="investment-form-medicare" id="investment-form-medicare" pattern="[0-9]" maxlength="3" required onkeydown="return onlyNumberKey(event);" oninput="locationPayerMix();" onclick="clearEmptyField(this);" value="0" />
+										<input class="investment-input-field" type="tel" name="investment-form-medicare" id="investment-form-medicare" inputmode="numeric" pattern="[0-9]*" maxlength="3" required oninput="locationPayerMix();" onclick="clearEmptyField(this);" onblur="returnZero(this);" value="0" />
 										<label>%</label>
 									</div>
 								</div>
@@ -688,7 +663,7 @@
 								<div class="investment-text-14px-label investment-element-padding">
 									<label class="investment-label-padding" for="investment-form-uninsured">Uninsured / No-Pay</label>
 									<div class="form-group-full-percentage">
-										<input class="investment-input-field" type="tel" type="tel" name="investment-form-uninsured" id="investment-form-uninsured" pattern="[0-9]" maxlength="3" required onkeydown="return onlyNumberKey(event);" oninput="locationPayerMix();" onclick="clearEmptyField(this);" value="0" />
+										<input class="investment-input-field" type="tel" name="investment-form-uninsured" id="investment-form-uninsured" inputmode="numeric" pattern="[0-9]*" maxlength="3" required oninput="locationPayerMix();" onclick="clearEmptyField(this);" onblur="returnZero(this);" value="0" />
 										<label>%</label>
 									</div>
 								</div>
@@ -707,7 +682,6 @@
 							<p class="investment-text-14px-label" id="payer-error-message" style="display: none;"></p>
 						</div>
 					</div>
-
 					<!-- End: Hospital Info -->
 
 					<!-- Start: Additional Information -->
@@ -730,7 +704,7 @@
 								<label class="investment-label-padding" for="investment-input-monthly-lease-payment">Monthly Lease Payment</label><br>
 								<div class="form-group-full-dollars">
 									<label>$</label>
-									<input class="investment-input-field" type="tel" name="investment-input-monthly-lease-payment" id="investment-input-monthly-lease-payment" pattern="[0-9]+[\.][0-9]" required onkeydown="return onlyNumberKeyFloat(event);" oninput="trimCents();" />
+									<input class="investment-input-field" type="tel" name="investment-input-monthly-lease-payment" id="investment-input-monthly-lease-payment" inputmode="numeric" pattern="[0-9]+\.[0-9]{2}" required />
 								</div>
 							</div>
 						</div>
@@ -739,50 +713,6 @@
 					<!-- End: Additional Information -->
 
 					<!-- Start: Exam Types -->
-					<script>
-						// If "Complete Exam" is unchecked, need to uncheck the add-ons.
-						function completeExamCheck() {
-							const completeExamStatus = document.getElementById("tcd-complete-exam").checked;
-
-							// document.getElementById("tcd-complete-exam").checked = true;
-							// document.getElementById("tcd-limited-exam").checked = false;
-
-							if (completeExamStatus === false) {
-								document.getElementById("addonOptions").style.opacity = "50%";
-								document.getElementById("tcd-bundle-exams-1").checked = false;
-								document.getElementById("tcd-bundle-exams-2").checked = false;
-								document.getElementById("tcd-bundle-exams-3").checked = false;
-							} else {
-								document.getElementById("addonOptions").style.opacity = "100%";
-								document.getElementById("tcd-limited-exam").checked = false;
-							}
-						}
-
-						// If an add-on is checked and "Complete Exam" is not checked, check it.
-						function activateCompleteExam() {
-							// const completeExamStatus = document.getElementById("tcd-complete-exam").checked;
-
-							// if (completeExamStatus === true) {
-							document.getElementById("tcd-complete-exam").checked = true;
-							document.getElementById("tcd-limited-exam").checked = false;
-							document.getElementById("addonOptions").style.opacity = "100%";
-							// }
-						}
-
-						function activateLimitedExam() {
-							const limitedExamStatus = document.getElementById("tcd-limited-exam").checked;
-
-							if (limitedExamStatus === true) {
-								document.getElementById("tcd-complete-exam").checked = false;
-
-								document.getElementById("tcd-bundle-exams-1").checked = false;
-								document.getElementById("tcd-bundle-exams-2").checked = false;
-								document.getElementById("tcd-bundle-exams-3").checked = false;
-								document.getElementById("addonOptions").style.opacity = "50%";
-							}
-						}
-					</script>
-
 					<div>
 						<div class="investment-text-header-2line">
 							Exam Types
@@ -826,23 +756,8 @@
 
 						<p>&nbsp;</p>
 
-						<style>
-							.submitButton {
-								background-color: #54BBE4;
-								padding-top: 10px;
-								padding-bottom: 10px;
-								font-family: "Open Sans", sans-serif;
-								font-size: 15px;
-								font-weight: 600;
-								border-radius: 12px;
-								border: none;
-								max-width: 300px;
-								width: 100%;
-							}
-						</style>
-
 						<div style="text-align: center;">
-							<input class="submitButton" onclick="apiCall();" type="button" value="Enter" />
+							<input class="submitButton" onclick="apiCall();" type="button" value="Calculate" />
 							<!-- <input class="submitButton" onclick="apiCall();" type="submit" value="Enter" /> -->
 						</div>
 
@@ -851,17 +766,8 @@
 
 				</form>
 
-
 				<p>&nbsp;</p>
 
-				<!-- <div style="text-align: center;">
-					<button onclick="apiCall();">(Temp) Calculate Values</button>
-				</div>
-
-				<p>&nbsp;</p> -->
-
-				<!-- This part should compute all the above information. -->
-				<!-- All this should be static outputs and not text inputs. -->
 				<!-- Start: Estimate Financials -->
 				<div class="investment-output-form">
 					<div class="investment-text-header">
@@ -890,13 +796,81 @@
 							<label class="investment-label-padding investment-text-14px-label" for="investment-output-monthly-profit">Monthly Profit</label><br>
 							<input class="investment-input-field-fullwidth" type="tel" name="investment-output-monthly-profit" id="investment-output-monthly-profit" readonly />
 						</div>
-
 					</div>
 				</div>
+
+				<div id="results" style="margin-bottom: 50px;"></div>
+
 			</div>
 			<!-- End: Estimate Financials -->
 		</div>
 	</div>
+
+	<script>
+		// Local Zip Code
+		document.getElementById('investment-form-zip').addEventListener('keypress', function (event) {
+			if (!/[0-9]/.test(event.key)) {
+				event.preventDefault();
+			}
+		});
+
+		// Annual Patients
+		document.getElementById('investment-form-annual-patients').addEventListener('keypress', function (event) {
+			if (!/[0-9]/.test(event.key)) {
+				event.preventDefault();
+			}
+		});
+
+		// Private Insurance %
+		document.getElementById('investment-form-private-insurance').addEventListener('keypress', function (event) {
+			if (!/[0-9]/.test(event.key)) {
+				event.preventDefault();
+			}
+		});
+
+		// Medicaid %
+		document.getElementById('investment-form-medicade').addEventListener('keypress', function (event) {
+			if (!/[0-9]/.test(event.key)) {
+				event.preventDefault();
+			}
+		});
+
+		// Medicare %
+		document.getElementById('investment-form-medicare').addEventListener('keypress', function (event) {
+			if (!/[0-9]/.test(event.key)) {
+				event.preventDefault();
+			}
+		});
+
+		// Uninsured / No-Pay %
+		document.getElementById('investment-form-uninsured').addEventListener('keypress', function (event) {
+			if (!/[0-9]/.test(event.key)) {
+				event.preventDefault();
+			}
+		});
+
+		//Monthly Lease Payment (allow cents)
+		document.getElementById('investment-input-monthly-lease-payment').addEventListener('input', function (e) {
+			let value = this.value;
+
+			// Remove any character that isn't a digit or a period
+			value = value.replace(/[^0-9.]/g, '');
+
+			// Handle multiple decimal points
+			// This splits the string at the first dot and joins the rest without periods
+			const parts = value.split('.');
+			if (parts.length > 2) {
+				value = parts[0] + '.' + parts.slice(1).join('');
+			}
+
+			// Limit to 2 decimal places if a decimal exists
+			if (parts.length > 1) {
+				value = parts[0] + '.' + parts[1].substring(0, 2);
+			}
+
+			this.value = value;
+		});
+	</script>
 
 </body>
 
