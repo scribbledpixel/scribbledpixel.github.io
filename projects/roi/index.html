@@ -14,7 +14,6 @@
 <body>
 
 	<style>
-		/* Start: possible temp code */
 		body {
 			background-color: #020618;
 			color: #FFF;
@@ -44,12 +43,10 @@
 
 		@media (max-width: 700px) {
 			.investment-page-margin {
-				margin-left: 0;
-				margin-right: 0;
+				margin-left: 10px;
+				margin-right: 10px;
 			}
 		}
-
-		/* End: possible temp code */
 
 
 		.investment-header {
@@ -63,22 +60,6 @@
 		.form-background {
 			background-color: #020618;
 		}
-
-
-		/* START: CSS Grid Code */
-		.investment-wrapper-2 {
-			display: grid;
-			/* grid-template-columns: 200px 200px; */
-			grid-template-columns: 1fr 1fr;
-		}
-
-		.investment-wrapper-3 {
-			display: grid;
-			grid-template-columns: 1fr 1fr 1fr;
-		}
-
-		/* END: CSS Grid Code */
-
 
 		.investment-text-header,
 		.investment-text-header-2line {
@@ -165,14 +146,20 @@
 			width: 100%;
 		}
 
-
 		.investment-element-padding {
 			padding-top: 20px;
 		}
 
 		.investment-label-padding {
-			display: inline-block;
+			display: block;
 			margin-bottom: 6px;
+		}
+
+		.fieldset-clear {
+			border: none;
+			padding-block: 0;
+			padding-inline: 0;
+			margin-inline: 0;
 		}
 
 		.submitButton {
@@ -189,6 +176,23 @@
 			border: none;
 			max-width: 300px;
 			width: 100%;
+		}
+
+		input[type="checkbox"],
+		input[type="radio"] {
+			accent-color: #05c0e2;
+			color: white;
+			outline: 2px solid transparent;
+		}
+
+		input[type="checkbox"]:checked+label,
+		input[type="radio"]:checked+label {
+			accent-color: #05c0e2;
+			color: #05c0e2;
+		}
+
+		.investment-output-form {
+			display: none;
 		}
 
 		/* Start: Form Group Percentage */
@@ -265,7 +269,11 @@
 			margin-left: 10px;
 		}
 
-		@media (max-width: 815px) {
+		@media (max-width: 835px) {
+			.mobile-padding {
+				margin-bottom: 10px;
+			}
+
 			.investment-container-2item {
 				display: flex;
 				flex-direction: column;
@@ -274,7 +282,7 @@
 			.investment-item-2row-item1 {
 				flex-grow: 12;
 				margin-right: 0;
-				margin-bottom: 10px;
+				/* margin-bottom: 10px; */
 			}
 
 			.investment-item-2row-item2 {
@@ -305,10 +313,6 @@
 				margin-top: 10px;
 			}
 		}
-
-		/* input:invalid {
-			border: 2px solid red;
-		} */
 	</style>
 
 	<script>
@@ -499,7 +503,9 @@
 
 				.catch(error => console.error('Error submitting data:', error));
 
+			document.getElementById("investment-output-form").style.display = "block";
 			document.getElementById("results").scrollIntoView({ behavior: "smooth" });
+			document.getElementById("estimated-financials").focus({ focusVisible: false });
 		}
 
 		//API Call - Zip Code processing only.
@@ -558,6 +564,7 @@
 		let formCheck_annualPatientsValid = false;
 		let formCheck_locationPayerMixValid = false;
 		let formCheck_leaseValid = false;
+		let formCheck_examTypes = false;
 
 		// Check the validity of the zip field. If field is less than 5 digits, mark it as bad.
 		// This check doesn't really know if you have entered a real ZIP code, just that 5 digits exist.
@@ -571,6 +578,8 @@
 			} else {
 				fieldToCheck.style.border = "2px solid transparent";
 				formCheck_zipValid = true;
+
+				document.getElementById("zip-label").innerHTML = "Local Zip Code";
 			}
 			submitButtonColorCheck();
 		}
@@ -586,6 +595,8 @@
 			} else {
 				fieldToCheck.style.border = "2px solid transparent";
 				formCheck_annualPatientsValid = true;
+
+				document.getElementById("zip-label").innerHTML = "Annual Patients - Required";
 			}
 			submitButtonColorCheck();
 		}
@@ -616,8 +627,42 @@
 			} else {
 				fieldToCheck.style.border = "2px solid transparent";
 				formCheck_leaseValid = true;
+
+				document.getElementById("lease-label").innerHTML = "Monthly Lease Payment";
 			}
 			submitButtonColorCheck();
+		}
+
+		// Check to see if at least one exam type is marked.
+		function checkExamType() {
+			const fieldToCheck1 = document.getElementById("tcd-complete-exam");
+			const fieldToCheck2 = document.getElementById("tcd-limited-exam");
+			const fieldToCheck3 = document.getElementById("emboli-exam");
+			const fieldToCheck4 = document.getElementById("bubble-exam");
+
+			// At least one checkbox will need to be checked.
+			if (fieldToCheck1.checked === false && fieldToCheck2.checked === false && fieldToCheck3.checked === false && fieldToCheck4.checked === false) {
+				// Problem detected
+				fieldToCheck1.style.outline = "2px solid red";
+				fieldToCheck2.style.outline = "2px solid red";
+				fieldToCheck3.style.outline = "2px solid red";
+				fieldToCheck4.style.outline = "2px solid red";
+
+				formCheck_examTypes = false;
+
+				document.getElementById("exam-error-message").innerHTML = "Error: At least one exam type must be selected.";
+				document.getElementById("exam-error-message").style.display = "block";
+			} else {
+				// Everything looks fine 
+				fieldToCheck1.style.outline = "2px solid transparent";
+				fieldToCheck2.style.outline = "2px solid transparent";
+				fieldToCheck3.style.outline = "2px solid transparent";
+				fieldToCheck4.style.outline = "2px solid transparent";
+
+				formCheck_examTypes = true;
+				document.getElementById("exam-error-message").innerHTML = "";
+				document.getElementById("exam-error-message").style.display = "none";
+			}
 		}
 
 		function submitButtonColorCheck() {
@@ -633,7 +678,7 @@
 		}
 
 		function checkIfAbleToSubmit() {
-			if (formCheck_zipValid === true && formCheck_annualPatientsValid === true && formCheck_locationPayerMixValid === true && formCheck_leaseValid === true) {
+			if (formCheck_zipValid === true && formCheck_annualPatientsValid === true && formCheck_locationPayerMixValid === true && formCheck_leaseValid === true && formCheck_examTypes === true) {
 				document.getElementById("submitButton").style.backgroundColor = "#54BBE4";
 				document.getElementById("submitButton").style.color = "black";
 
@@ -643,22 +688,36 @@
 				document.getElementById("submitButton").style.backgroundColor = "#35498F";
 				document.getElementById("submitButton").style.color = "white";
 
+				checkExamType();
+
 				if (formCheck_zipValid === false) {
 					checkIfZipValid();
 
+					document.getElementById("zip-label").innerHTML = "Local Zip Code - Required";
 					document.getElementById("zipcode").scrollIntoView({ behavior: "smooth" });
+					document.getElementById("zip-label").focus();
 				} else if (formCheck_annualPatientsValid === false) {
 					checkAnnualPatients();
 
+					document.getElementById("patients-label").innerHTML = "Annual Patients - Required";
 					document.getElementById("annualPatients").scrollIntoView({ behavior: "smooth" });
+					document.getElementById("patients-label").focus();
 				} else if (formCheck_locationPayerMixValid === false) {
 					checkLocationPayerMixTotal();
 
 					document.getElementById("payermix").scrollIntoView({ behavior: "smooth" });
+					document.getElementById("investment-form-private-insurance").focus();
 				} else if (formCheck_leaseValid === false) {
 					checkLeasePayment();
 
+					document.getElementById("lease-label").innerHTML = "Monthly Lease Payment - Required";
 					document.getElementById("leasePayment").scrollIntoView({ behavior: "smooth" });
+					document.getElementById("lease-label").focus();
+				} else if (formCheck_examTypes === false) {
+					checkExamType();
+
+					document.getElementById("examTypes").scrollIntoView({ behavior: "smooth" });
+					document.getElementById("tcd-complete-exam").focus();
 				}
 			}
 		}
@@ -700,22 +759,22 @@
 				<form action="" method="get">
 
 					<!-- Start: Hospital Info -->
-					<div class="investment-text-header">
+					<h1 class="investment-text-header">
 						Hospital Information
-					</div>
+					</h1>
 
 					<div class="investment-section-border">
 						<div class="investment-container-2item">
-							<div class="investment-item-2row-item1">
+							<div class="investment-item-2row-item1 mobile-padding">
 								<div id="zipcode" class="investment-text-15px-label">
-									<label class="investment-label-padding" for="investment-form-zip">Local Zip Code</label><br>
-									<input class="investment-input-field" type="tel" name="investment-form-zip" id="investment-form-zip" maxlength="5" inputmode="numeric" pattern="[0-9]{5}" required aria-label="5 digit zip code" title="5 digit zip code" oninput="apiCallZipOnly();" onblur="checkIfZipValid();" />
+									<label id="zip-label" class="investment-label-padding" for="investment-form-zip">Local Zip Code</label>
+									<input class="investment-input-field" type="tel" name="investment-form-zip" id="investment-form-zip" maxlength="5" inputmode="numeric" pattern="[0-9]{5}" required aria-required="true" aria-label="5 digit zip code" title="5 digit zip code" oninput="apiCallZipOnly();" onblur="checkIfZipValid();" />
 								</div>
 							</div>
 
 							<div class="investment-item-2row-item2">
 								<div class="investment-text-14px-label fontsizebump">
-									<label class="investment-label-padding" for="investment-form-region">Medicare Locality</label><br>
+									<label class="investment-label-padding" for="investment-form-region">Medicare Locality</label>
 									<input class="investment-input-field" type="tel" name="investment-form-region" id="investment-form-region" readonly />
 								</div>
 							</div>
@@ -724,16 +783,16 @@
 						<hr class="investment-seperator">
 
 						<div class="investment-container-2item">
-							<div class="investment-item-2row-item1">
+							<div class="investment-item-2row-item1 mobile-padding">
 								<div id="annualPatients" class="investment-text-15px-label">
-									<label class="investment-label-padding" for="investment-form-annual-patients">Annual Patients</label><br>
-									<input class="investment-input-field" type="tel" name="investment-form-annual-patients" id="investment-form-annual-patients" inputmode="numeric" pattern="[0-9]*" required aria-label="Number of annual patients" title="Number of annual patients" oninput="averagePatientsCalc();" onblur="checkAnnualPatients();" />
+									<label id="patients-label" class="investment-label-padding" for="investment-form-annual-patients">Annual Patients</label>
+									<input class="investment-input-field" type="tel" name="investment-form-annual-patients" id="investment-form-annual-patients" inputmode="numeric" pattern="[0-9]*" required aria-required="true" aria-label="Number of annual patients" title="Number of annual patients" oninput="averagePatientsCalc();" onblur="checkAnnualPatients();" />
 								</div>
 							</div>
 
 							<div class="investment-item-2row-item2">
 								<div class="investment-text-14px-label fontsizebump">
-									<label class="investment-label-padding" for="investment-form-average-monthly-patients">Average Monthly Patients</label><br>
+									<label class="investment-label-padding" for="investment-form-average-monthly-patients">Average Monthly Patients</label>
 									<input class="investment-input-field" type="tel" name="investment-form-average-monthly-patients" id="investment-form-average-monthly-patients" readonly />
 								</div>
 							</div>
@@ -797,7 +856,7 @@
 							</div>
 
 						</div>
-						<div class="payer-error-message-div">
+						<div>
 							<p class="investment-text-14px-label" id="payer-error-message" style="display: none;"></p>
 						</div>
 					</div>
@@ -805,25 +864,27 @@
 
 					<!-- Start: Additional Information -->
 					<div>
-						<div class="investment-text-header">
+						<h2 class="investment-text-header">
 							Additional Information
-						</div>
+						</h2>
 
 						<div class="investment-section-border">
 
 							<div class="investment-text-15px-label">
-								<span>Is TTE Performed on the Same Day?</span>
-								<input type="radio" id="tte_yes" name="tte_performed_same" value="true">
-								<label for="tte_yes">Yes</label>
-								<input type="radio" id="tte_no" name="tte_performed_same" value="false" checked>
-								<label for="tte_no">No</label>
+								<fieldset class="fieldset-clear">
+									<span>Is TTE Performed on the Same Day?</span>
+									<input type="radio" id="tte_yes" name="tte_performed_same" value="true">
+									<label for="tte_yes">Yes</label>
+									<input type="radio" id="tte_no" name="tte_performed_same" value="false" checked>
+									<label for="tte_no">No</label>
+								</fieldset>
 							</div>
 
 							<div id="leasePayment" class="investment-text-15px-label investment-element-padding">
-								<label class="investment-label-padding" for="investment-input-monthly-lease-payment">Monthly Lease Payment</label><br>
+								<label id="lease-label" class="investment-label-padding" for="investment-input-monthly-lease-payment">Monthly Lease Payment</label>
 								<div class="form-group-full-dollars">
 									<label>$</label>
-									<input class="investment-input-field" type="tel" name="investment-input-monthly-lease-payment" id="investment-input-monthly-lease-payment" inputmode="numeric" pattern="[0-9]+\.[0-9]{2}" required onblur="checkLeasePayment();" />
+									<input class="investment-input-field" type="tel" name="investment-input-monthly-lease-payment" id="investment-input-monthly-lease-payment" inputmode="numeric" pattern="[0-9]+\.[0-9]{2}" required aria-required="true" aria-label="Monthly lease payment" onblur="checkLeasePayment();" />
 								</div>
 							</div>
 						</div>
@@ -833,43 +894,49 @@
 
 					<!-- Start: Exam Types -->
 					<div>
-						<div class="investment-text-header-2line">
+						<h2 class="investment-text-header-2line">
 							Exam Types
-						</div>
+						</h2>
 
 						<div class="investment-text-subheader">
-							Select All That Apply
+							Select All That Apply<br>(At Least One Exam Must Be Selected)
 						</div>
 
-						<div class="investment-section-border">
-							<div class="investment-text-15px-label">
-								<input type="checkbox" name="tcd-complete-exam" id="tcd-complete-exam" value="" onclick="completeExamCheck();" /> <label for="tcd-complete-exam">TCD Complete Study - 93886</label>
-							</div>
-
-							<div id="addonOptions" class="addonOptions">
-								<div class="investment-list-indent investment-text-14px-label investment-element-padding">
-									<input type="checkbox" name="tcd-bundle-exams-1" id="tcd-bundle-exams-1" value="" onclick="activateCompleteExam();" /> <label for="tcd-bundle-exams-1">Add-on: Vasoreactivity to Complete TCD Eval - 93896</label>
+						<div id="examTypes" class="investment-section-border">
+							<fieldset class="fieldset-clear">
+								<div class="investment-text-15px-label">
+									<input class="input-checkbox-override" type="checkbox" name="tcd-complete-exam" id="tcd-complete-exam" value="" onclick="completeExamCheck(); checkExamType();" /> <label for="tcd-complete-exam">TCD Complete Study - 93886</label>
 								</div>
 
-								<div class="investment-list-indent investment-text-14px-label investment-element-padding">
-									<input type="checkbox" name="tcd-bundle-exams-2" id="tcd-bundle-exams-2" value="" onclick="activateCompleteExam();" /> <label for="tcd-bundle-exams-2">Add-on: Emboli Detection to Complete TCD Eval - 93897</label>
+								<div id="addonOptions" class="addonOptions">
+									<div class="investment-list-indent investment-text-14px-label investment-element-padding">
+										<input type="checkbox" name="tcd-bundle-exams-1" id="tcd-bundle-exams-1" value="" onclick="activateCompleteExam();" /> <label for="tcd-bundle-exams-1">Add-on: Vasoreactivity to Complete TCD Eval - 93896</label>
+									</div>
+
+									<div class="investment-list-indent investment-text-14px-label investment-element-padding">
+										<input type="checkbox" name="tcd-bundle-exams-2" id="tcd-bundle-exams-2" value="" onclick="activateCompleteExam();" /> <label for="tcd-bundle-exams-2">Add-on: Emboli Detection to Complete TCD Eval - 93897</label>
+									</div>
+
+									<div class="investment-list-indent investment-text-14px-label investment-element-padding">
+										<input type="checkbox" name="tcd-bundle-exams-3" id="tcd-bundle-exams-3" value="" onclick="activateCompleteExam();" /> <label for="tcd-bundle-exams-3">Add-on: Bubble for PFT Detection to Complete TCD Eval - 93898</label>
+									</div>
 								</div>
 
-								<div class="investment-list-indent investment-text-14px-label investment-element-padding">
-									<input type="checkbox" name="tcd-bundle-exams-3" id="tcd-bundle-exams-3" value="" onclick="activateCompleteExam();" /> <label for="tcd-bundle-exams-3">Add-on: Bubble for PFT Detection to Complete TCD Eval - 93898</label>
+								<div class="investment-text-15px-label investment-element-padding">
+									<input type="checkbox" name="tcd-limited-exam" id="tcd-limited-exam" value="" onclick="activateLimitedExam(); checkExamType();" /> <label for="tcd-limited-exam">TCD Limited Study - 93888</label>
 								</div>
-							</div>
 
-							<div class="investment-text-15px-label investment-element-padding">
-								<input type="checkbox" name="tcd-limited-exam" id="tcd-limited-exam" value="" onclick="activateLimitedExam();" /> <label for="tcd-limited-exam">TCD Limited Study - 93888</label>
-							</div>
+								<div class="investment-text-15px-label investment-element-padding">
+									<input type="checkbox" name="emboli-exam" id="emboli-exam" value="" onclick="checkExamType();" /> <label for="emboli-exam">Emboli Monitoring Study - 93892</label>
+								</div>
 
-							<div class="investment-text-15px-label investment-element-padding">
-								<input type="checkbox" name="emboli-exam" id="emboli-exam" value="" /> <label for="emboli-exam">Emboli Monitoring Study - 93892</label>
-							</div>
+								<div class="investment-text-15px-label investment-element-padding">
+									<input type="checkbox" name="bubble-exam" id="bubble-exam" value="" onclick="checkExamType();" /> <label for="bubble-exam">TCD Bubble Study - 93893</label>
+								</div>
+							</fieldset>
 
-							<div class="investment-text-15px-label investment-element-padding">
-								<input type="checkbox" name="bubble-exam" id="bubble-exam" value="" /> <label for="bubble-exam">TCD Bubble Study - 93893</label>
+							<div>
+								<p class="investment-text-14px-label" id="exam-error-message" style="display: none;"></p>
 							</div>
 						</div>
 
@@ -888,32 +955,32 @@
 				<p>&nbsp;</p>
 
 				<!-- Start: Estimate Financials -->
-				<div class="investment-output-form">
-					<div class="investment-text-header">
-						Estimate Financials
+				<div id="investment-output-form" class="investment-output-form">
+					<div id="estimated-financials" class="investment-text-header">
+						Estimated Financials
 					</div>
 
 					<div class="investment-section-border">
 						<div class="investment-container-3item">
 							<div class="investment-item-3row-item1">
-								<label class="investment-label-padding investment-text-14px-label" for="investment-output-average-scan-revenue">Average Scan Revenue</label><br>
-								<input class="investment-input-field" type="tel" name="investment-output-average-scan-revenue" id="investment-output-average-scan-revenue" readonly />
+								<label class="investment-label-padding investment-text-14px-label" for="investment-output-average-scan-revenue">Average Scan Revenue</label>
+								<input class="investment-input-field" type="text" name="investment-output-average-scan-revenue" id="investment-output-average-scan-revenue" readonly />
 							</div>
 
 							<div class="investment-item-3row-item2">
-								<label class="investment-label-padding investment-text-14px-label" for="investment-output-monthly-revenue">Monthly Revenue</label><br>
-								<input class="investment-input-field" type="tel" name="investment-output-monthly-revenue" id="investment-output-monthly-revenue" readonly />
+								<label class="investment-label-padding investment-text-14px-label" for="investment-output-monthly-revenue">Monthly Revenue</label>
+								<input class="investment-input-field" type="text" name="investment-output-monthly-revenue" id="investment-output-monthly-revenue" readonly />
 							</div>
 
 							<div class="investment-item-3row-item3">
-								<label class="investment-label-padding investment-text-14px-label" for="investment-output-break-even">Scans Required to Break Even</label><br>
-								<input class="investment-input-field" type="tel" name="investment-output-break-even" id="investment-output-break-even" readonly />
+								<label class="investment-label-padding investment-text-14px-label" for="investment-output-break-even">Scans Required to Break Even</label>
+								<input class="investment-input-field" type="text" name="investment-output-break-even" id="investment-output-break-even" readonly />
 							</div>
 						</div>
 
 						<div class="investment-element-padding">
-							<label class="investment-label-padding investment-text-14px-label" for="investment-output-monthly-profit">Monthly Profit</label><br>
-							<input class="investment-input-field-fullwidth" type="tel" name="investment-output-monthly-profit" id="investment-output-monthly-profit" readonly />
+							<label class="investment-label-padding investment-text-14px-label" for="investment-output-monthly-profit">Monthly Profit</label>
+							<input class="investment-input-field-fullwidth" type="text" name="investment-output-monthly-profit" id="investment-output-monthly-profit" readonly />
 						</div>
 					</div>
 				</div>
@@ -991,10 +1058,6 @@
 
 			checkLeasePayment();
 		});
-
-		// document.getElementById('investment-input-monthly-lease-payment').addEventListener('keypress', function (event) {
-		// 	checkLeasePayment();
-		// });
 	</script>
 
 </body>
