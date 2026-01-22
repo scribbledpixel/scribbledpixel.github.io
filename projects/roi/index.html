@@ -456,12 +456,15 @@
 			let payer_medicare = parseInt(document.getElementById("investment-form-medicare").value);
 			let payer_medicaid = parseInt(document.getElementById("investment-form-medicade").value);
 			let payer_unpaid = parseInt(document.getElementById("investment-form-uninsured").value);
-			let monthly_lease = parseInt(document.getElementById("investment-input-monthly-lease-payment").value);
+			let monthly_lease = parseFloat(document.getElementById("investment-input-monthly-lease-payment").value);
 			let annual_patients = parseInt(document.getElementById("investment-form-annual-patients").value);
+			//let annual_patients = parseInt(document.getElementById("investment-form-average-monthly-patients").value);
 			let private_rate = 0;
 
 			const apiKey = "92729bae1f8f425c8646131a1b0dbb06";
 			const dataToSend = { zipcode: zipcode, complete_exam: complete_exam, bundle_exams: bundle_exams, limited_exam: limited_exam, vmr_exam: vmr_exam, emboli_exam: emboli_exam, bubble_exam: bubble_exam, facility_type: facility_type, include_tte: include_tte, payer_private: payer_private, payer_medicare: payer_medicare, payer_medicaid: payer_medicaid, payer_unpaid: payer_unpaid, monthly_lease: monthly_lease, annual_patients: annual_patients, private_rate: private_rate };
+
+			console.log(dataToSend);
 
 			fetch('https://xfefqhtcvk.us-west-2.awsapprunner.com/calc', {
 				method: 'POST',
@@ -477,7 +480,7 @@
 					request_results = data
 				)
 
-				//.then(data => console.log(request_results))
+				.then(data => console.log(request_results))
 
 				//.then(data => document.getElementById("investment-form-region").value = request_results.medicare_locality)
 
@@ -596,7 +599,7 @@
 				fieldToCheck.style.border = "2px solid transparent";
 				formCheck_annualPatientsValid = true;
 
-				document.getElementById("zip-label").innerHTML = "Annual Patients - Required";
+				document.getElementById("patients-label").innerHTML = "Annual Patients - Required";
 			}
 			submitButtonColorCheck();
 		}
