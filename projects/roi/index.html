@@ -372,37 +372,81 @@
 	</script>
 
 	<script>
-		// If "Complete Exam" is unchecked, need to uncheck the add-ons.
-		function completeExamCheck() {
-			const completeExamStatus = document.getElementById("tcd-complete-exam").checked;
+		// Complete exam has been checked, all other checkboxes should be unchecked and emboli/bubble grayed out.
+		function completeExamChecked() {
+			if (document.getElementById("tcd-complete-exam").checked === true) {
+				document.getElementById("complete-exam-group").style.opacity = "100%";
+				document.getElementById("addon-options-group").style.opacity = "100%";
 
-			if (completeExamStatus === false) {
+				document.getElementById("tcd-limited-exam").checked = false;
+
+				document.getElementById("emboli-bubble-group").style.opacity = "50%";
+				document.getElementById("emboli-exam").checked = false;
+				document.getElementById("bubble-exam").checked = false;
+			} else {
+				document.getElementById("complete-exam-group").style.opacity = "100%";
 				document.getElementById("addon-options-group").style.opacity = "50%";
 				document.getElementById("tcd-bundle-exams-1").checked = false;
 				document.getElementById("tcd-bundle-exams-2").checked = false;
 				document.getElementById("tcd-bundle-exams-3").checked = false;
-			} else {
-				document.getElementById("addon-options-group").style.opacity = "100%";
+
 				document.getElementById("tcd-limited-exam").checked = false;
+
+				document.getElementById("emboli-bubble-group").style.opacity = "100%";
+				document.getElementById("emboli-exam").checked = false;
+				document.getElementById("bubble-exam").checked = false;
 			}
 		}
 
-		// If an add-on is checked and "Complete Exam" is not checked, check it.
-		function activateCompleteExam() {
+		// One of the addon options has been checked, all other checkboxes should be unchecked and emboli/bubble grayed out.
+		function addonOptionChecked() {
+			document.getElementById("complete-exam-group").style.opacity = "100%";
 			document.getElementById("tcd-complete-exam").checked = true;
-			document.getElementById("tcd-limited-exam").checked = false;
 			document.getElementById("addon-options-group").style.opacity = "100%";
+
+			document.getElementById("tcd-limited-exam").checked = false;
+
+			document.getElementById("emboli-bubble-group").style.opacity = "50%";
+			document.getElementById("emboli-exam").checked = false;
+			document.getElementById("bubble-exam").checked = false;
 		}
 
-		function activateLimitedExam() {
-			const limitedExamStatus = document.getElementById("tcd-limited-exam").checked;
-
-			if (limitedExamStatus === true) {
+		// Limited Exam has been checked.
+		function limitedExamChecked() {
+			if (document.getElementById("tcd-limited-exam").checked === true) {
+				document.getElementById("complete-exam-group").style.opacity = "50%";
 				document.getElementById("tcd-complete-exam").checked = false;
-
+				document.getElementById("addon-options-group").style.opacity = "50%";
 				document.getElementById("tcd-bundle-exams-1").checked = false;
 				document.getElementById("tcd-bundle-exams-2").checked = false;
 				document.getElementById("tcd-bundle-exams-3").checked = false;
+
+				document.getElementById("emboli-bubble-group").style.opacity = "100%";
+				document.getElementById("emboli-exam").checked = false;
+				document.getElementById("bubble-exam").checked = false;
+			} else {
+				document.getElementById("complete-exam-group").style.opacity = "100%";
+				document.getElementById("addon-options-group").style.opacity = "50%";
+
+				document.getElementById("emboli-bubble-group").style.opacity = "100%";
+				document.getElementById("emboli-exam").checked = false;
+				document.getElementById("bubble-exam").checked = false;
+			}
+		}
+
+		// Emboli or Bubble exam has been checked
+		function emboliBubbleExamChecked() {
+			if (document.getElementById("emboli-exam").checked === true || document.getElementById("bubble-exam").checked === true) {
+				document.getElementById("complete-exam-group").style.opacity = "50%";
+				document.getElementById("tcd-complete-exam").checked = false;
+				document.getElementById("addon-options-group").style.opacity = "50%";
+				document.getElementById("tcd-bundle-exams-1").checked = false;
+				document.getElementById("tcd-bundle-exams-2").checked = false;
+				document.getElementById("tcd-bundle-exams-3").checked = false;
+
+				document.getElementById("emboli-bubble-group").style.opacity = "100%";
+			} else {
+				document.getElementById("complete-exam-group").style.opacity = "100%";
 				document.getElementById("addon-options-group").style.opacity = "50%";
 			}
 		}
@@ -915,35 +959,35 @@
 							<fieldset class="fieldset-clear">
 								<div id="complete-exam-group" class="complete-exam-group">
 									<div class="investment-text-15px-label">
-										<input class="input-checkbox-override" type="checkbox" name="tcd-complete-exam" id="tcd-complete-exam" value="" onclick="completeExamCheck(); checkExamType();" /> <label for="tcd-complete-exam">TCD Complete Study - 93886</label>
+										<input class="input-checkbox-override" type="checkbox" name="tcd-complete-exam" id="tcd-complete-exam" value="" onclick="completeExamChecked(); checkExamType();" /> <label for="tcd-complete-exam">TCD Complete Study - 93886</label>
 									</div>
 								</div>
 
 								<div id="addon-options-group" class="addon-options-group">
 									<div class="investment-list-indent investment-text-14px-label investment-element-padding">
-										<input type="checkbox" name="tcd-bundle-exams-1" id="tcd-bundle-exams-1" value="" onclick="activateCompleteExam();" /> <label for="tcd-bundle-exams-1">Add-on: Vasoreactivity to Complete TCD Eval - 93896</label>
+										<input type="checkbox" name="tcd-bundle-exams-1" id="tcd-bundle-exams-1" value="" onclick="addonOptionChecked();" /> <label for="tcd-bundle-exams-1">Add-on: Vasoreactivity to Complete TCD Eval - 93896</label>
 									</div>
 
 									<div class="investment-list-indent investment-text-14px-label investment-element-padding">
-										<input type="checkbox" name="tcd-bundle-exams-2" id="tcd-bundle-exams-2" value="" onclick="activateCompleteExam();" /> <label for="tcd-bundle-exams-2">Add-on: Emboli Detection to Complete TCD Eval - 93897</label>
+										<input type="checkbox" name="tcd-bundle-exams-2" id="tcd-bundle-exams-2" value="" onclick="addonOptionChecked();" /> <label for="tcd-bundle-exams-2">Add-on: Emboli Detection to Complete TCD Eval - 93897</label>
 									</div>
 
 									<div class="investment-list-indent investment-text-14px-label investment-element-padding">
-										<input type="checkbox" name="tcd-bundle-exams-3" id="tcd-bundle-exams-3" value="" onclick="activateCompleteExam();" /> <label for="tcd-bundle-exams-3">Add-on: Bubble for PFT Detection to Complete TCD Eval - 93898</label>
+										<input type="checkbox" name="tcd-bundle-exams-3" id="tcd-bundle-exams-3" value="" onclick="addonOptionChecked();" /> <label for="tcd-bundle-exams-3">Add-on: Bubble for PFT Detection to Complete TCD Eval - 93898</label>
 									</div>
 								</div>
 
 								<div class="investment-text-15px-label investment-element-padding">
-									<input type="checkbox" name="tcd-limited-exam" id="tcd-limited-exam" value="" onclick="activateLimitedExam(); checkExamType();" /> <label for="tcd-limited-exam">TCD Limited Study - 93888</label>
+									<input type="checkbox" name="tcd-limited-exam" id="tcd-limited-exam" value="" onclick="limitedExamChecked(); checkExamType();" /> <label for="tcd-limited-exam">TCD Limited Study - 93888</label>
 								</div>
 
 								<div id="emboli-bubble-group" class="emboli-bubble-group">
 									<div class="investment-text-15px-label investment-element-padding">
-										<input type="checkbox" name="emboli-exam" id="emboli-exam" value="" onclick="checkExamType();" /> <label for="emboli-exam">Emboli Monitoring Study - 93892</label>
+										<input type="checkbox" name="emboli-exam" id="emboli-exam" value="" onclick="emboliBubbleExamChecked(); checkExamType();" /> <label for="emboli-exam">Emboli Monitoring Study - 93892</label>
 									</div>
 
 									<div class="investment-text-15px-label investment-element-padding">
-										<input type="checkbox" name="bubble-exam" id="bubble-exam" value="" onclick="checkExamType();" /> <label for="bubble-exam">TCD Bubble Study - 93893</label>
+										<input type="checkbox" name="bubble-exam" id="bubble-exam" value="" onclick="emboliBubbleExamChecked(); checkExamType();" /> <label for="bubble-exam">TCD Bubble Study - 93893</label>
 									</div>
 								</div>
 							</fieldset>
