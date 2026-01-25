@@ -95,10 +95,6 @@
 			font-weight: 600;
 		}
 
-		.fontsizebump {
-			padding-top: 1px;
-		}
-
 		.investment-section-border {
 			border: 2px solid #334666;
 			background-color: #172236;
@@ -435,21 +431,32 @@
 		//API Call - Take all the data and process it.
 		function apiCall() {
 			var request_results;
-			var bundleChecked = false
+			var emboliChecked = false;
+			var bubbleChecked = false;
 
-
-			if (document.getElementById("tcd-bundle-exams-1").checked === true || document.getElementById("tcd-bundle-exams-2").checked === true || document.getElementById("tcd-bundle-exams-3").checked === true) {
-				bundleChecked = true;
+			// Emboil exam selection.
+			if (document.getElementById("tcd-bundle-exams-2").checked === true || document.getElementById("emboli-exam").checked === true) {
+				emboliChecked = true;
 			}
 
-			// Grab data from the form - document.getElementById("X").value;
+			// Bubble exam selection.
+			if (document.getElementById("tcd-bundle-exams-3").checked === true || document.getElementById("bubble-exam").checked === true) {
+				bubbleChecked = true;
+			}
+
+			// Grab data from the form
 			let zipcode = document.getElementById("investment-form-zip").value;
+
+			// Exam types
 			let complete_exam = document.getElementById("tcd-complete-exam").checked;
-			let bundle_exams = bundleChecked;
 			let limited_exam = document.getElementById("tcd-limited-exam").checked;
-			let vmr_exam = false;
-			let emboli_exam = document.getElementById("emboli-exam").checked;
-			let bubble_exam = document.getElementById("bubble-exam").checked;
+			let vmr_exam = document.getElementById("tcd-bundle-exams-1").checked;
+
+			let emboli_exam = emboliChecked;
+			let bubble_exam = bubbleChecked;
+
+
+			let bundle_exams = false;
 			let facility_type = "Hospital";
 			let include_tte = document.getElementById("tte_yes").checked;
 			let payer_private = parseInt(document.getElementById("investment-form-private-insurance").value);
@@ -458,7 +465,6 @@
 			let payer_unpaid = parseInt(document.getElementById("investment-form-uninsured").value);
 			let monthly_lease = parseFloat(document.getElementById("investment-input-monthly-lease-payment").value);
 			let annual_patients = parseInt(document.getElementById("investment-form-annual-patients").value);
-			//let annual_patients = parseInt(document.getElementById("investment-form-average-monthly-patients").value);
 			let private_rate = 175;
 
 			const apiKey = "92729bae1f8f425c8646131a1b0dbb06";
@@ -548,15 +554,15 @@
 					body: JSON.stringify(dataToSend)
 				})
 					.then(response => response.json())
-					.then(data =>
-						request_results = data
-					)
+					.then(data => request_results = data)
 
 					//.then(data => console.log(request_results))
 
-					.then(data => document.getElementById("investment-form-region").value = request_results.medicare_locality)
+					.then(data => document.getElementById("investment-form-region").value = request_results.medicare_mac.toString().padStart(5, "0") + request_results.medicare_locality.toString().padStart(2, "0"))
 
 					.catch(error => console.error('Error submitting data:', error));
+			} else {
+				document.getElementById("investment-form-region").value = "";
 			}
 		}
 	</script>
@@ -776,7 +782,7 @@
 							</div>
 
 							<div class="investment-item-2row-item2">
-								<div class="investment-text-14px-label fontsizebump">
+								<div class="investment-text-15px-label">
 									<label class="investment-label-padding" for="investment-form-region">Medicare Locality</label>
 									<input class="investment-input-field" type="tel" name="investment-form-region" id="investment-form-region" readonly />
 								</div>
@@ -794,7 +800,7 @@
 							</div>
 
 							<div class="investment-item-2row-item2">
-								<div class="investment-text-14px-label fontsizebump">
+								<div class="investment-text-15px-label">
 									<label class="investment-label-padding" for="investment-form-average-monthly-patients">Average Monthly Patients</label>
 									<input class="investment-input-field" type="tel" name="investment-form-average-monthly-patients" id="investment-form-average-monthly-patients" readonly />
 								</div>
