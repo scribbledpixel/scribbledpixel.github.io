@@ -95,6 +95,13 @@
 			font-weight: 600;
 		}
 
+		.text-disclaimer {
+			font-family: "Open Sans", sans-serif;
+			font-size: 15px;
+			font-weight: 500;
+			text-align: center;
+		}
+
 		.investment-section-border {
 			border: 2px solid #334666;
 			background-color: #172236;
@@ -813,7 +820,7 @@
 
 					<!-- Start: Hospital Info -->
 					<h1 class="investment-text-header">
-						Hospital Information
+						Hospital/Clinic Information
 					</h1>
 
 					<div class="investment-section-border">
@@ -827,7 +834,7 @@
 
 							<div class="investment-item-2row-item2">
 								<div class="investment-text-15px-label">
-									<label class="investment-label-padding" for="investment-form-region">Medicare Locality</label>
+									<label class="investment-label-padding" for="investment-form-region">Specific MAC Locality</label>
 									<input class="investment-input-field" type="tel" name="investment-form-region" id="investment-form-region" readonly />
 								</div>
 							</div>
@@ -860,7 +867,7 @@
 						<div class="investment-container-2item">
 							<div class="investment-item-2row-item1">
 								<div id="payermix" class="investment-text-14px-label investment-element-padding">
-									<label class="investment-label-padding" for="investment-form-private-insurance">Private Insurance</label>
+									<label class="investment-label-padding" for="investment-form-private-insurance">Private Insurance*</label>
 									<div class="form-group-full-percentage">
 										<input class="investment-input-field" type="tel" name="investment-form-private-insurance" id="investment-form-private-insurance" inputmode="numeric" pattern="[0-9]*" maxlength="3" required oninput="locationPayerMix();" onclick="clearEmptyField(this);" onblur="returnZero(this);" value="0" />
 										<label>%</label>
@@ -925,7 +932,7 @@
 
 							<div class="investment-text-15px-label">
 								<fieldset class="fieldset-clear">
-									<span>Is TTE Performed on the Same Day?</span>
+									<span>Is TTE or Other Imaging Procedure Performed on the Same Day?</span>
 									<input type="radio" id="tte_yes" name="tte_performed_same" value="true">
 									<label for="tte_yes">Yes</label>
 									<input type="radio" id="tte_no" name="tte_performed_same" value="false" checked>
@@ -965,15 +972,15 @@
 
 								<div id="addon-options-group" class="addon-options-group">
 									<div class="investment-list-indent investment-text-14px-label investment-element-padding">
-										<input type="checkbox" name="tcd-bundle-exams-1" id="tcd-bundle-exams-1" value="" onclick="addonOptionChecked();" /> <label for="tcd-bundle-exams-1">Add-on: Vasoreactivity to Complete TCD Eval - 93896</label>
+										<input type="checkbox" name="tcd-bundle-exams-1" id="tcd-bundle-exams-1" value="" onclick="addonOptionChecked();" /> <label for="tcd-bundle-exams-1">TCD Vasoreactivity Study - 93896</label>
 									</div>
 
 									<div class="investment-list-indent investment-text-14px-label investment-element-padding">
-										<input type="checkbox" name="tcd-bundle-exams-2" id="tcd-bundle-exams-2" value="" onclick="addonOptionChecked();" /> <label for="tcd-bundle-exams-2">Add-on: Emboli Detection to Complete TCD Eval - 93897</label>
+										<input type="checkbox" name="tcd-bundle-exams-2" id="tcd-bundle-exams-2" value="" onclick="addonOptionChecked();" /> <label for="tcd-bundle-exams-2">TCD Emboli Monitoring Study - 93897</label>
 									</div>
 
 									<div class="investment-list-indent investment-text-14px-label investment-element-padding">
-										<input type="checkbox" name="tcd-bundle-exams-3" id="tcd-bundle-exams-3" value="" onclick="addonOptionChecked();" /> <label for="tcd-bundle-exams-3">Add-on: Bubble for PFT Detection to Complete TCD Eval - 93898</label>
+										<input type="checkbox" name="tcd-bundle-exams-3" id="tcd-bundle-exams-3" value="" onclick="addonOptionChecked();" /> <label for="tcd-bundle-exams-3">TCD Bubble Study - 93898</label>
 									</div>
 								</div>
 
@@ -983,7 +990,7 @@
 
 								<div id="emboli-bubble-group" class="emboli-bubble-group">
 									<div class="investment-text-15px-label investment-element-padding">
-										<input type="checkbox" name="emboli-exam" id="emboli-exam" value="" onclick="emboliBubbleExamChecked(); checkExamType();" /> <label for="emboli-exam">Emboli Monitoring Study - 93892</label>
+										<input type="checkbox" name="emboli-exam" id="emboli-exam" value="" onclick="emboliBubbleExamChecked(); checkExamType();" /> <label for="emboli-exam">TCD Emboli Monitoring Study - 93892</label>
 									</div>
 
 									<div class="investment-text-15px-label investment-element-padding">
@@ -1041,6 +1048,10 @@
 						</div>
 					</div>
 				</div>
+
+				<p>&nbsp;</p>
+
+				<p class="text-disclaimer">*private pay ratio set at 1.75x of Medicare rate</p>
 
 				<div id="results" style="margin-bottom: 50px;"></div>
 
