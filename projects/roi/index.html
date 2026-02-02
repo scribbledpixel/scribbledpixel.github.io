@@ -95,7 +95,7 @@
 			font-weight: 600;
 		}
 
-		.text-disclaimer {
+		.investment-text-disclaimer {
 			font-family: "Open Sans", sans-serif;
 			font-size: 10px;
 			font-weight: 300;
@@ -518,7 +518,7 @@
 			let annual_patients = parseInt(document.getElementById("investment-form-annual-patients").value);
 			let private_rate = 175;
 
-			const apiKey = "92729bae1f8f425c8646131a1b0dbb06";
+			const apiKey = "d7196338da7842d5b5c5588dc39396e2";
 			const dataToSend = { zipcode: zipcode, complete_exam: complete_exam, bundle_exams: bundle_exams, limited_exam: limited_exam, vmr_exam: vmr_exam, emboli_exam: emboli_exam, bubble_exam: bubble_exam, facility_type: facility_type, include_tte: include_tte, payer_private: payer_private, payer_medicare: payer_medicare, payer_medicaid: payer_medicaid, payer_unpaid: payer_unpaid, monthly_lease: monthly_lease, annual_patients: annual_patients, private_rate: private_rate };
 
 			console.log(dataToSend);
@@ -592,7 +592,7 @@
 				const annual_patients = 100;
 				const private_rate = 0;
 
-				const apiKey = "92729bae1f8f425c8646131a1b0dbb06";
+				const apiKey = "d7196338da7842d5b5c5588dc39396e2";
 				const dataToSend = { zipcode: zipcode, complete_exam: complete_exam, bundle_exams: bundle_exams, limited_exam: limited_exam, vmr_exam: vmr_exam, emboli_exam: emboli_exam, bubble_exam: bubble_exam, facility_type: facility_type, include_tte: include_tte, payer_private: payer_private, payer_medicare: payer_medicare, payer_medicaid: payer_medicaid, payer_unpaid: payer_unpaid, monthly_lease: monthly_lease, annual_patients: annual_patients, private_rate: private_rate };
 
 				fetch('https://xfefqhtcvk.us-west-2.awsapprunner.com/calc', {
@@ -1051,7 +1051,7 @@
 
 				<p>&nbsp;</p>
 
-				<p class="text-disclaimer">*private pay ratio set at 1.75x of Medicare rate</p>
+				<p class="investment-text-disclaimer">*private pay ratio set at 1.75x of Medicare rate</p>
 
 				<div id="results" style="margin-bottom: 50px;"></div>
 
