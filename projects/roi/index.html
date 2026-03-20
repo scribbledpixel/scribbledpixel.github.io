@@ -516,7 +516,7 @@
 			let payer_unpaid = parseInt(document.getElementById("investment-form-uninsured").value);
 			let monthly_lease = parseFloat(document.getElementById("investment-input-monthly-lease-payment").value);
 			let annual_patients = parseInt(document.getElementById("investment-form-annual-patients").value);
-			let private_rate = 140;
+			let private_rate = 145;
 
 			const apiKey = "d7196338da7842d5b5c5588dc39396e2";
 			const dataToSend = { zipcode: zipcode, complete_exam: complete_exam, bundle_exams: bundle_exams, limited_exam: limited_exam, vmr_exam: vmr_exam, emboli_exam: emboli_exam, bubble_exam: bubble_exam, facility_type: facility_type, include_tte: include_tte, payer_private: payer_private, payer_medicare: payer_medicare, payer_medicaid: payer_medicaid, payer_unpaid: payer_unpaid, monthly_lease: monthly_lease, annual_patients: annual_patients, private_rate: private_rate };
